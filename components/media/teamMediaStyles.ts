@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 export const TEAM_MEDIA_BACKGROUND_CLASS =
-  "media-pop absolute inset-0 z-0 media-wrapper-team-bg bg-cover bg-center bg-no-repeat";
+  "media-pop absolute inset-0 z-0 media-wrapper-gallery-bg bg-cover bg-center bg-no-repeat";
 
 export const TEAM_MEDIA_OVERLAY_SIZE_CLASS = "h-[88%] w-[88%] object-contain";
 

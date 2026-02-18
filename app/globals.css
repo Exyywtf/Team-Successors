@@ -305,8 +305,8 @@
     z-index: 1;
   }
 
-  .media-wrapper-team-bg {
-    background-image: url("/textures/media-wrapper-team-bg.jpg");
+  .media-wrapper-gallery-bg {
+    background-image: url("/textures/media-wrapper-gallery-bg.jpg");
   }
 
   .glass-panel {
