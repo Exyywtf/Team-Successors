@@ -318,7 +318,7 @@ function NavbarMobile({
         )}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div data-navbar-row className="flex items-center justify-between gap-[11px] px-[14px] py-[5px] md:gap-3 md:px-5 md:py-2.5">
+        <div data-navbar-row className="flex items-center justify-between gap-[11px] px-[14px] py-[6px] md:gap-3 md:px-5 md:py-2.5">
           <div data-navbar-brand className="flex shrink-0 items-center">
             <Link href="/" className="focus-ring inline-flex shrink-0 items-center gap-[11px] rounded-lg py-[3px] group md:gap-3 md:py-1">
               <div className="relative">
@@ -702,7 +702,7 @@ export default function Navbar() {
         <motion.header
           className={cn(
             "fixed left-1/2 z-50 w-[calc(100%-2rem)] max-w-[1200px] -translate-x-1/2 sm:w-[calc(100%-3rem)] lg:w-[calc(100%-5rem)] 2xl:w-[calc(100%-6rem)]",
-            "top-[10px] md:top-6"
+            "top-[10px] md:top-[21px]"
           )}
           style={{
             y: prefersReducedMotion ? (isScrolled ? 0 : NAV_SCROLL_DOWNSHIFT_PX) : navbarY,
