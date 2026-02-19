@@ -2,7 +2,7 @@ import type { Transition, Variants } from "framer-motion";
 import { easeOutCubic } from "@/lib/motion";
 
 export const globalModalDuration = 0.34;
-export const globalModalBackdropBlurPx = 4;
+export const globalModalBackdropBlurPx = 8;
 export const globalModalEase = easeOutCubic;
 
 export const globalModalTransition: Transition = {
@@ -23,8 +23,8 @@ export const globalModalPanelVariants = {
 export const globalModalBackdropVariants = {
   initial: {
     opacity: 0,
-    backdropFilter: "blur(0px)",
-    WebkitBackdropFilter: "blur(0px)"
+    backdropFilter: `blur(${globalModalBackdropBlurPx}px)`,
+    WebkitBackdropFilter: `blur(${globalModalBackdropBlurPx}px)`
   },
   animate: {
     opacity: 1,
@@ -33,7 +33,7 @@ export const globalModalBackdropVariants = {
   },
   exit: {
     opacity: 0,
-    backdropFilter: "blur(0px)",
-    WebkitBackdropFilter: "blur(0px)"
+    backdropFilter: `blur(${globalModalBackdropBlurPx}px)`,
+    WebkitBackdropFilter: `blur(${globalModalBackdropBlurPx}px)`
   }
 } as Variants;

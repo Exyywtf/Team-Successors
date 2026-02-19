@@ -929,8 +929,8 @@
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transform: translateZ(0);
     will-change: opacity, backdrop-filter;
     backface-visibility: hidden;
