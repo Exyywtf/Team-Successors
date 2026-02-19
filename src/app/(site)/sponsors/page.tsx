@@ -9,6 +9,17 @@ import SponsorGrid from "@/components/SponsorGrid";
 import SponsorSpotlightCards from "@/components/sections/SponsorSpotlightCards";
 import { siteContent } from "@/lib/content";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Our Partners | Successors F1 - Sponsorship Opportunities & ROI",
+  description:
+    "We are powered by industry leaders. Explore our current partners and discover how to join our network.",
+  alternates: {
+    canonical: "/sponsors",
+  },
+};
+
 export default function SponsorsPage() {
   const { sponsorsPage, sponsors } = siteContent;
 

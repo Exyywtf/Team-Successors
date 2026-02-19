@@ -4,6 +4,17 @@ import Section from "@/components/layout/Section";
 import Timeline from "@/components/Timeline";
 import { siteContent } from "@/lib/content";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Engineering Process | Successors F1 - Aerodynamics, CAD & Manufacturing",
+  description:
+    "Deep dive into our engineering workflow: from CFD analysis and wind tunnel testing to CNC manufacturing and race-day optimization.",
+  alternates: {
+    canonical: "/engineering",
+  },
+};
+
 export default function EngineeringPage() {
   const { engineeringPage } = siteContent;
 

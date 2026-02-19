@@ -3,6 +3,17 @@ import Section from "@/components/layout/Section";
 import TeamGrid from "@/components/TeamGrid";
 import { siteContent } from "@/lib/content";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Meet the Team | Successors F1 - Roles, Bios & Structure",
+  description:
+    "Get to know the students behind Team Successors. Organized for efficiency, united by passion.",
+  alternates: {
+    canonical: "/team",
+  },
+};
+
 export default function TeamPage() {
   return (
     <Section

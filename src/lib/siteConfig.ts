@@ -4,7 +4,7 @@ import { CONTACT_EMAIL_ADDRESS } from "@/lib/emailCompose";
 export const siteConfig = {
   teamName: "Team Successors",
   siteName: "Team Successors | F1 in Schools Team",
-  siteUrl: "https://teamsuccessors.example.com",
+  siteUrl: "https://successorsf1.com",
   contactEmail: CONTACT_EMAIL_ADDRESS,
   locationText: "GEMS Founders School, Dubai, UAE.",
   socialLinks: [

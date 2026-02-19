@@ -77,6 +77,17 @@ function FaqColumn({ heading, items }: { heading: string; items: FaqItem[] }) {
   );
 }
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Frequently Asked Questions | Successors F1",
+  description:
+    "Answers to common questions about F1 in Schools, our car design, sponsorship model, and community outreach.",
+  alternates: {
+    canonical: "/faq",
+  },
+};
+
 export default function FaqPage() {
   return (
     <Section
