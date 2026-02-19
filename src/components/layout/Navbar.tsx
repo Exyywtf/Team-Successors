@@ -31,6 +31,11 @@ import { navIndicatorTransition } from "@/components/motion";
 import type { NavigationItem } from "@/types/content";
 import { navItemClasses } from "@/components/uiClasses";
 import { siteContent } from "@/lib/content";
+import {
+  GLOBAL_MODAL_STATE_EVENT,
+  type GlobalModalStateDetail,
+  readGlobalModalOpenState,
+} from "@/lib/modalRuntime";
 import { easeOutExpo, stagger } from "@/lib/motion";
 import { siteConfig } from "@/lib/siteConfig";
 import { cn } from "@/lib/utils";
@@ -611,6 +616,7 @@ export default function Navbar() {
     href: "/contact",
   };
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isGlobalModalOpen, setIsGlobalModalOpen] = useState(false);
   const [mobileMenuPhase, setMobileMenuPhase] =
     useState<MobileMenuPhase>("closed");
   const [pendingHref, setPendingHref] = useState<string | null>(null);
@@ -727,6 +733,27 @@ export default function Navbar() {
    * Toggles `isScrolled` state which drives the navbar's appearance (glass effect/opacity).
    */
   useEffect(() => {
+    setIsGlobalModalOpen(readGlobalModalOpenState());
+
+    const handleModalState = (event: Event) => {
+      const modalEvent = event as CustomEvent<GlobalModalStateDetail>;
+      setIsGlobalModalOpen(Boolean(modalEvent.detail?.open));
+    };
+
+    window.addEventListener(
+      GLOBAL_MODAL_STATE_EVENT,
+      handleModalState as EventListener,
+    );
+
+    return () => {
+      window.removeEventListener(
+        GLOBAL_MODAL_STATE_EVENT,
+        handleModalState as EventListener,
+      );
+    };
+  }, []);
+
+  useEffect(() => {
     const threshold = 12;
 
     const syncScrollState = () => {
@@ -739,6 +766,9 @@ export default function Navbar() {
     };
 
     const handleScroll = () => {
+      if (isGlobalModalOpen) {
+        return;
+      }
       if (rafRef.current !== null) {
         return;
       }
@@ -756,7 +786,7 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
     };
-  }, [pathname]);
+  }, [isGlobalModalOpen, pathname]);
 
   useEffect(() => {
     setMobileMenuPhase("closed");

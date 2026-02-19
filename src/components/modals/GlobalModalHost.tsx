@@ -5,11 +5,13 @@ import { X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
+  globalModalBackdropTransition,
   globalModalBackdropVariants,
   globalModalPanelVariants,
   globalModalTransition,
   reducedGlobalModalTransition,
 } from "@/components/motion/globalModalVariants";
+import { setGlobalModalOpenState } from "@/lib/modalRuntime";
 import ToastCheckmarkLottie from "@/components/toast/ToastCheckmarkLottie";
 import EnterpriseBulletList from "@/components/ui/EnterpriseBulletList";
 
@@ -105,12 +107,6 @@ export async function openModal<T extends ModalType>(
   type: T,
   payload: ModalPayloadMap[T],
 ) {
-  if (type === "copyToast") {
-    await copyTextToClipboard(
-      (payload as ModalPayloadMap["copyToast"]).copyText,
-    );
-  }
-
   emit({
     kind: "open",
     modal: {
@@ -118,6 +114,10 @@ export async function openModal<T extends ModalType>(
       payload,
     } as ActiveModal,
   });
+
+  if (type === "copyToast") {
+    void copyTextToClipboard((payload as ModalPayloadMap["copyToast"]).copyText);
+  }
 }
 
 export function closeModal() {
@@ -135,6 +135,9 @@ export default function GlobalModalHost() {
   const activeTransition = prefersReducedMotion
     ? reducedGlobalModalTransition
     : globalModalTransition;
+  const backdropTransition = prefersReducedMotion
+    ? reducedGlobalModalTransition
+    : globalModalBackdropTransition;
   const backdropVariants = globalModalBackdropVariants;
   const panelVariants = globalModalPanelVariants;
 
@@ -155,6 +158,22 @@ export default function GlobalModalHost() {
   }, []);
 
   useEffect(() => {
+    if (!mounted || typeof window === "undefined") {
+      return;
+    }
+
+    const prewarmTimer = window.setTimeout(() => {
+      void fetch("/brand/toast-checkmark.lottie", {
+        cache: "force-cache",
+      }).catch(() => undefined);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(prewarmTimer);
+    };
+  }, [mounted]);
+
+  useEffect(() => {
     if (!mounted) {
       return;
     }
@@ -164,11 +183,13 @@ export default function GlobalModalHost() {
 
       if (command.kind === "close") {
         pendingCopyActionRef.current = null;
+        setGlobalModalOpenState(false);
         setActiveModal(null);
         return;
       }
 
       const modal = command.modal;
+      setGlobalModalOpenState(true);
       setActiveModal(modal);
 
       if (modal.type === "copyToast") {
@@ -179,6 +200,7 @@ export default function GlobalModalHost() {
           onCloseComplete: modal.payload.onCloseComplete,
         };
         autoCloseTimerRef.current = window.setTimeout(() => {
+          setGlobalModalOpenState(false);
           setActiveModal((current) =>
             current?.type === "copyToast" ? null : current,
           );
@@ -196,6 +218,12 @@ export default function GlobalModalHost() {
       clearTimers();
     };
   }, [mounted]);
+
+  useEffect(() => {
+    return () => {
+      setGlobalModalOpenState(false);
+    };
+  }, []);
 
   useEffect(() => {
     if (!activeModal) {
@@ -220,7 +248,7 @@ export default function GlobalModalHost() {
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setActiveModal(null);
+        handleCloseRequest();
       }
     };
 
@@ -229,6 +257,7 @@ export default function GlobalModalHost() {
   }, [activeModal]);
 
   const handleCloseRequest = () => {
+    setGlobalModalOpenState(false);
     setActiveModal(null);
   };
 
@@ -253,7 +282,7 @@ export default function GlobalModalHost() {
   }
 
   return createPortal(
-    <AnimatePresence mode="wait" onExitComplete={handleExitComplete}>
+    <AnimatePresence mode="sync" onExitComplete={handleExitComplete}>
       {activeModal ? (
         <div key={activeModal.type} className="modal-overlay-root">
           <motion.div
@@ -262,7 +291,7 @@ export default function GlobalModalHost() {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={activeTransition}
+            transition={backdropTransition}
             onClick={
               activeModal.type === "copyToast" ? undefined : handleCloseRequest
             }

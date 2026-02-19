@@ -3,11 +3,17 @@
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import {
+  GLOBAL_MODAL_STATE_EVENT,
+  type GlobalModalStateDetail,
+  readGlobalModalOpenState,
+} from "@/lib/modalRuntime";
 
 const ATMO_SECTION_SELECTOR = "[data-atmo-section]";
 const SPOT_LERP_FACTOR = 0.12;
 const TARGET_UPDATE_MIN_MS = 80;
 const SPOT_SNAP_THRESHOLD = 0.35;
+const MODAL_BG_FADE_MS = 420;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
@@ -65,6 +71,8 @@ export default function CinematicBackground() {
   const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
   const [debugAtmo, setDebugAtmo] = useState(false); // Toggle via ?atmoDebug query param
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAtmoWorkPaused, setIsAtmoWorkPaused] = useState(false);
 
   // Physics state for the "Pulse" orb
   const pulseAnchorRef = useRef<HTMLDivElement | null>(null);
@@ -79,13 +87,65 @@ export default function CinematicBackground() {
   const setupRafOneRef = useRef<number | null>(null);
   const setupRafTwoRef = useRef<number | null>(null);
   const fallbackTimeoutRef = useRef<number | null>(null);
+  const pauseAtmoWorkTimerRef = useRef<number | null>(null);
   
   // Throttling for scroll events
   const lastTargetUpdateTsRef = useRef(0);
   const updateTargetNowRef = useRef<((force?: boolean) => void) | null>(null);
   
   const isDev = process.env.NODE_ENV !== "production";
-  const overlayVisible = true;
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    setIsModalOpen(readGlobalModalOpenState());
+
+    const handleModalState = (event: Event) => {
+      const modalEvent = event as CustomEvent<GlobalModalStateDetail>;
+      setIsModalOpen(Boolean(modalEvent.detail?.open));
+    };
+
+    window.addEventListener(
+      GLOBAL_MODAL_STATE_EVENT,
+      handleModalState as EventListener,
+    );
+
+    return () => {
+      window.removeEventListener(
+        GLOBAL_MODAL_STATE_EVENT,
+        handleModalState as EventListener,
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    if (pauseAtmoWorkTimerRef.current !== null) {
+      window.clearTimeout(pauseAtmoWorkTimerRef.current);
+      pauseAtmoWorkTimerRef.current = null;
+    }
+
+    if (isModalOpen) {
+      pauseAtmoWorkTimerRef.current = window.setTimeout(() => {
+        setIsAtmoWorkPaused(true);
+        pauseAtmoWorkTimerRef.current = null;
+      }, MODAL_BG_FADE_MS);
+    } else {
+      setIsAtmoWorkPaused(false);
+    }
+
+    return () => {
+      if (pauseAtmoWorkTimerRef.current !== null) {
+        window.clearTimeout(pauseAtmoWorkTimerRef.current);
+        pauseAtmoWorkTimerRef.current = null;
+      }
+    };
+  }, [isModalOpen]);
 
   useEffect(() => {
     if (!isDev || typeof window === "undefined") {
@@ -122,6 +182,10 @@ export default function CinematicBackground() {
 
   useEffect(() => {
     if (typeof window === "undefined") {
+      return;
+    }
+
+    if (isAtmoWorkPaused) {
       return;
     }
 
@@ -306,10 +370,10 @@ export default function CinematicBackground() {
       setupRafTwoRef.current = null;
       fallbackTimeoutRef.current = null;
     };
-  }, [pathname]);
+  }, [isAtmoWorkPaused, pathname]);
 
   useEffect(() => {
-    if (typeof window === "undefined" || !overlayVisible) {
+    if (typeof window === "undefined" || isAtmoWorkPaused) {
       return;
     }
 
@@ -347,11 +411,14 @@ export default function CinematicBackground() {
       }
       movementRafRef.current = null;
     };
-  }, [overlayVisible, pathname]);
+  }, [isAtmoWorkPaused, pathname]);
 
   useEffect(() => {
+    if (isAtmoWorkPaused) {
+      return;
+    }
     updateTargetNowRef.current?.(true);
-  }, [pathname]);
+  }, [isAtmoWorkPaused, pathname]);
 
   const atmoStrength = 1.35;
   const mobileMultiplier = isMobile ? 0.85 : 1;
@@ -359,10 +426,10 @@ export default function CinematicBackground() {
   const goldSize = isMobile ? "29.75vw" : "35vw";
   const purpleSize = isMobile ? "32.3vw" : "38vw";
   const pulseSize = isMobile ? "130vw" : "110vw";
-  const goldBlur = debugAtmo ? "0px" : isMobile ? "120px" : "132px";
-  const purpleBlur = debugAtmo ? "0px" : isMobile ? "127px" : "140px";
-  const pulseBlur = debugAtmo ? "0px" : isMobile ? "100px" : "90px";
-  const pulseDuration = isMobile ? "6s" : "5.4s";
+  const goldBlur = debugAtmo ? "0px" : isMobile ? "84px" : "96px";
+  const purpleBlur = debugAtmo ? "0px" : isMobile ? "90px" : "104px";
+  const pulseBlur = debugAtmo ? "0px" : isMobile ? "72px" : "64px";
+  const pulseDuration = isMobile ? "7.2s" : "6.4s";
 
   const overlayStyle: CSSProperties & Record<string, string | number> = {
     position: "fixed",
@@ -371,8 +438,9 @@ export default function CinematicBackground() {
     overflow: "hidden",
     zIndex: 0,
     mixBlendMode: "normal",
-    opacity: overlayVisible ? 1 : 0,
-    transition: "opacity 300ms ease",
+    opacity: isModalOpen ? 0 : 1,
+    transition: "opacity var(--duration-modal-bg-fade) var(--ease-modal-fade)",
+    willChange: "opacity",
     "--atmo-strength": atmoStrength,
     "--atmo-mobile-multiplier": mobileMultiplier,
     "--atmo-effective-strength":
@@ -485,7 +553,7 @@ export default function CinematicBackground() {
       <div
         id="atmo-overlay"
         aria-hidden="true"
-        data-hide={overlayVisible ? "0" : "1"}
+        data-hide={isModalOpen ? "1" : "0"}
         style={overlayStyle}
       >
         <div id="atmo-gold" style={goldStyle} />

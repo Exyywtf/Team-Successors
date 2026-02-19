@@ -9,6 +9,11 @@ import {
 } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import {
+  GLOBAL_MODAL_STATE_EVENT,
+  type GlobalModalStateDetail,
+  readGlobalModalOpenState,
+} from "@/lib/modalRuntime";
 
 let HERO_HAS_LOADED_ONCE = false;
 
@@ -16,6 +21,7 @@ export default function PersistentHeroVideo() {
   const pathname = usePathname();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [ready, setReady] = useState(HERO_HAS_LOADED_ONCE);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isHome = pathname === "/";
 
@@ -37,11 +43,41 @@ export default function PersistentHeroVideo() {
   }, [ready]);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    setIsModalOpen(readGlobalModalOpenState());
+
+    const handleModalState = (event: Event) => {
+      const modalEvent = event as CustomEvent<GlobalModalStateDetail>;
+      setIsModalOpen(Boolean(modalEvent.detail?.open));
+    };
+
+    window.addEventListener(
+      GLOBAL_MODAL_STATE_EVENT,
+      handleModalState as EventListener,
+    );
+
+    return () => {
+      window.removeEventListener(
+        GLOBAL_MODAL_STATE_EVENT,
+        handleModalState as EventListener,
+      );
+    };
+  }, []);
+
+  useEffect(() => {
     const videoElement = videoRef.current;
     if (!videoElement) return;
 
     videoElement.muted = true;
     videoElement.playsInline = true;
+
+    if (!isHome || isModalOpen) {
+      videoElement.pause();
+      return;
+    }
 
     if (videoElement.currentTime > 0 && !videoElement.paused) {
       handlePlaying();
@@ -51,7 +87,7 @@ export default function PersistentHeroVideo() {
     if (playPromise !== undefined) {
       playPromise.catch(() => {});
     }
-  }, [handlePlaying]);
+  }, [handlePlaying, isHome, isModalOpen]);
 
   return (
     <div
@@ -60,7 +96,7 @@ export default function PersistentHeroVideo() {
       style={{
         zIndex: 0,
         height: "clamp(850px, 100vh, 1175px)", // Matches hero section height
-        opacity: isHome ? 1 : 0,
+        opacity: isHome && !isModalOpen ? 1 : 0,
         transition: "opacity 600ms ease-out", // Smooth fade in/out on route change
         // We use visibility hidden when not home to avoid potential GPU usage/painting when not needed,
         // but we need to wait for transition. For now, simple opacity is safest for 'purity' of transition.

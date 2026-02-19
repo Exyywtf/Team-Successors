@@ -113,6 +113,8 @@
   --duration-press: 80ms;
   --duration-micro: 300ms;
   --duration-reveal: 800ms;
+  --duration-modal-bg-fade: 420ms;
+  --ease-modal-fade: cubic-bezier(0.33, 0, 0.67, 1);
   --stagger-step: 100ms;
   --focus-ring-shadow:
     0 0 0 2px color-mix(in srgb, var(--bg) 72%, transparent),
@@ -301,7 +303,7 @@
     opacity: 0.06;
     mix-blend-mode: screen;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
-    animation: noiseDrift 12s steps(10) infinite;
+    animation: none;
   }
 
   .bg-cinematic::after {
@@ -333,7 +335,6 @@
       rgba(58, 12, 163, 0.2) 100%
     );
     box-shadow: var(--glow-purple-soft);
-    backdrop-filter: blur(20px);
   }
 
   .glass-panel::before {
@@ -679,8 +680,8 @@
       rgba(245, 200, 66, 0.32),
       rgba(91, 33, 182, 0.8)
     );
-    background-size: 180% 180%;
-    animation: gradientShift 8s ease-in-out infinite;
+    background-size: 100% 100%;
+    animation: none;
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
@@ -794,10 +795,7 @@
       inset 0 0 0 1px rgba(255, 255, 255, 0.07),
       inset 0 0 0 2px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(22px) saturate(165%) contrast(125%);
-    -webkit-backdrop-filter: blur(22px) saturate(165%) contrast(125%);
     transform: translateZ(0);
-    will-change: backdrop-filter;
     transition:
       padding var(--duration-standard) var(--ease-standard),
       border-color var(--duration-standard) ease,
@@ -843,8 +841,6 @@
     position: relative;
     background-color: var(--nav-inner-bg);
     border-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(14px) saturate(155%) contrast(120%);
-    -webkit-backdrop-filter: blur(14px) saturate(155%) contrast(120%);
   }
 
   .nav-inner-glass::before {
@@ -1380,6 +1376,27 @@
         --sponsor-logo-page-pad-left: 16px;
       }
     }
+  }
+
+  .bg-cinematic::before,
+  .bg-cinematic::after,
+  .nav-shell::before,
+  .nav-shell::after,
+  .footer-obsidian-haze::after {
+    transition: opacity var(--duration-modal-bg-fade) var(--ease-modal-fade);
+  }
+
+  html.modal-active .bg-cinematic::before,
+  html.modal-active .bg-cinematic::after,
+  html.modal-active .nav-shell::before,
+  html.modal-active .nav-shell::after,
+  html.modal-active .footer-obsidian-haze::after {
+    opacity: 0;
+  }
+
+  html.modal-active .bg-cinematic::before,
+  html.modal-active .gradient-border::before {
+    animation-play-state: paused !important;
   }
 
   @keyframes noiseDrift {
