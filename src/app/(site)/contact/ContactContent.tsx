@@ -193,7 +193,7 @@ export default function ContactContent() {
                   <input
                     value={name}
                     onChange={(event) => setName(event.target.value)}
-                    className="focus-ring field-input"
+                    className="field-input"
                     type="text"
                     name="name"
                     autoComplete="name"
@@ -208,7 +208,7 @@ export default function ContactContent() {
                   <input
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    className="focus-ring field-input"
+                    className="field-input"
                     type="email"
                     name="email"
                     autoComplete="email"
@@ -223,7 +223,7 @@ export default function ContactContent() {
                   <input
                     value={subject}
                     onChange={(event) => setSubject(event.target.value)}
-                    className="focus-ring field-input"
+                    className="field-input"
                     type="text"
                     name="subject"
                     placeholder="Partnership Inquiry"

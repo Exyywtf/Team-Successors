@@ -868,6 +868,8 @@
 
   .stat-pill {
     position: relative;
+    isolation: isolate;
+    z-index: 0;
     border-radius: 999px;
     border: 1px solid rgba(240, 238, 245, 0.08);
     background: linear-gradient(
@@ -880,14 +882,39 @@
     font-size: 0.74rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
     transition:
-      border-color var(--duration-fast) ease,
-      box-shadow var(--duration-fast) ease;
+      transform var(--duration-standard) var(--ease-standard),
+      border-color var(--duration-standard) ease;
+  }
+
+  .stat-pill::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    box-shadow:
+      0 12px 28px rgba(0, 0, 0, 0.34),
+      var(--glow-purple-soft);
+    transition: opacity var(--duration-standard) var(--ease-standard);
+    will-change: opacity;
   }
 
   .stat-pill:hover {
     border-color: var(--border-accent);
-    box-shadow: var(--glow-purple-soft);
+    transform: translate3d(0, -2px, 0) scale(1.003);
+  }
+
+  .stat-pill:hover::after,
+  .stat-pill:focus-visible::after {
+    opacity: 1;
+  }
+
+  .stat-pill:active {
+    transform: translate3d(0, -1px, 0) scale(1.0015);
   }
 
   .tier-chip {
@@ -1411,6 +1438,15 @@
     .btn-base:hover,
     .btn-base:active {
       transform: none;
+    }
+
+    .stat-pill:hover,
+    .stat-pill:active {
+      transform: none;
+    }
+
+    .stat-pill::after {
+      transition: none;
     }
 
     .card-hover:hover,

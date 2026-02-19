@@ -36,7 +36,7 @@ export default function StatPills({
         return (
           <motion.span
             key={`${stat.label}-${stat.value}`}
-            className="stat-pill sheen"
+            className="stat-pill"
             initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
             animate={targetAnimation}
             transition={

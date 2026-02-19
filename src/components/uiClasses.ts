@@ -59,5 +59,5 @@ export function navItemClasses({
 }
 
 export function inputClasses(className?: string) {
-  return cn("focus-ring field-input", className);
+  return cn("field-input", className);
 }
