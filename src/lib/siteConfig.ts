@@ -2,8 +2,8 @@ import type { NavigationItem } from "@/types/content";
 import { CONTACT_EMAIL_ADDRESS } from "@/lib/emailCompose";
 
 export const siteConfig = {
-  teamName: "Team Successors",
-  siteName: "Team Successors | F1 in Schools Team",
+  teamName: "Successors",
+  siteName: "Successors | F1 in Schools Team",
   siteUrl: "https://successorsf1.com",
   contactEmail: CONTACT_EMAIL_ADDRESS,
   locationText: "GEMS Founders School, Dubai, UAE.",

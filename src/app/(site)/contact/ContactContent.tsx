@@ -55,7 +55,7 @@ function buildEmailBody({
   email: string;
   message: string;
 }) {
-  return `Hi Team Successors,
+  return `Hi Successors,
 
 I’m reaching out regarding: ${message}
 

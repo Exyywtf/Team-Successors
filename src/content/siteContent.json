@@ -1,6 +1,6 @@
 {
   "teamInfo": {
-    "name": "Team Successors",
+    "name": "Successors",
     "tagline": "Inheriting the Legacy",
     "school": "GEMS Founders School",
     "location": "Dubai, UAE",
@@ -24,13 +24,13 @@
   ],
   "hero": {
     "headline": "Inheriting the Legacy. Defining the Future.",
-    "subheadline": "We are Team Successors, an F1 in Schools team building precision engineering, measurable partner value, and high-impact STEM outreach.",
+    "subheadline": "We are Successors, an F1 in Schools team building precision engineering, measurable partner value, and high-impact STEM outreach.",
     "ctaPrimary": {
       "label": "Meet the Team",
       "href": "/team"
     },
     "ctaSecondary": {
-      "label": "Partner With Us",
+      "label": "Sponsor Us",
       "href": "/enterprise"
     },
     "kineticWords": [
@@ -56,7 +56,7 @@
         "metric": "0.1mm tolerance target"
       },
       {
-        "title": "Partner ROI",
+        "title": "Sponsor ROI",
         "description": "Activation strategy built for visibility, content production, and measurable outreach.",
         "metric": "100k+ LinkedIn impressions"
       },
@@ -77,7 +77,7 @@
       },
       {
         "stage": "Manufacture",
-        "detail": "Denford 2600 Router CNC machining and controlled finishing workflow."
+        "detail": "Lunyee 3018 Pro Ultra CNC machining and controlled finishing workflow."
       }
     ],
     "outreachSnapshot": {
@@ -240,7 +240,7 @@
       },
       {
         "title": "CNC Production",
-        "tool": "Denford 2600 Router",
+        "tool": "Lunyee 3018 Pro Ultra",
         "description": "Final validated model is machined, finished, and prepped for race conditions.",
         "outcome": "Competition-ready car body"
       }
@@ -301,7 +301,7 @@
   "enterprisePage": {
     "title": "Enterprise",
     "subtitle": "A sponsor program engineered for visibility, trust, and measurable impact.",
-    "pitch": "Join the team that drives results. Our partners receive dedicated storytelling, campus activation, and a high-performance narrative built for brand growth.",
+    "pitch": "Join the team that drives results. Our sponsors receive dedicated storytelling, campus activation, and a high-performance narrative built for brand growth.",
     "tiers": [
       {
         "name": "Champion",
@@ -458,9 +458,9 @@
   },
   "sponsorsPage": {
     "title": "Sponsors",
-    "subtitle": "Our partners are part of the build, the race, and the story.",
+    "subtitle": "Our sponsors are part of the build, the race, and the story.",
     "spotlightTitle": "Sponsor Spotlights",
-    "ctaTitle": "Ready to accelerate with Team Successors?",
+    "ctaTitle": "Ready to accelerate with Successors?",
     "ctaDescription": "Connect with us to tailor a sponsorship package that aligns with your growth goals."
   },
   "contactPage": {
@@ -486,7 +486,7 @@
       "F1 in Schools UAE National Finals focus",
       "Access to 6,000+ students",
       "100k+ LinkedIn impressions via network",
-      "Engineering stack: Fusion 360, Ansys CFD, Denford 2600 Router",
+      "Engineering stack: Fusion 360, Ansys CFD, Lunyee 3018 Pro Ultra",
       "Sustainability partner operations at 100%"
     ],
     "sponsorshipTiers": [
@@ -497,7 +497,7 @@
     ],
     "copyDraft": {
       "heroHeadline": "Inheriting the Legacy. Defining the Future.",
-      "heroSubheadline": "We are Team Successors. The GEMS Founders School F1 in Schools team driving innovation, ambition, and engineering excellence.",
+      "heroSubheadline": "We are Successors. The GEMS Founders School F1 in Schools team driving innovation, ambition, and engineering excellence.",
       "whatWeDo": [
         "Design aerodynamic chassis in Fusion 360",
         "Analyze airflow and drag in Ansys CFD",
@@ -505,7 +505,7 @@
         "Market with enterprise-grade partner storytelling",
         "Race for the national title"
       ],
-      "sponsorPitch": "Our partners do not just get a logo on a car. They get a focused marketing and outreach arm connected to a high-performance story."
+      "sponsorPitch": "Our sponsors do not just get a logo on a car. They get a focused marketing and outreach arm connected to a high-performance story."
     }
   }
 }

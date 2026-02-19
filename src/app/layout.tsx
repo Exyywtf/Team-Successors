@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat, Orbitron } from "next/font/google";
 import "@/app/globals.css";
-import { normalizeBrandText } from "@/lib/brandText";
 import { siteConfig } from "@/lib/siteConfig";
 
 /**
@@ -29,8 +28,8 @@ const bodyFont = Montserrat({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   title: {
-    default: "Team Successors | F1 in Schools",
-    template: "%s | Team Successors",
+    default: "Successors | F1 in Schools",
+    template: "%s | Successors",
   },
   icons: {
     icon: [{ url: "/brand/logo.svg", type: "image/svg+xml" }],
@@ -38,11 +37,11 @@ export const metadata: Metadata = {
     apple: [{ url: "/brand/logo.svg" }],
   },
   description:
-    "Official website of Team Successors, a premiere F1 in Schools team from Dubai, UAE. We combine advanced engineering, strategic enterprise, and community outreach to compete at the highest level of STEM competition.",
+    "Official website of Successors, a premiere F1 in Schools team from Dubai, UAE. We combine advanced engineering, strategic enterprise, and community outreach to compete at the highest level of STEM competition.",
   keywords: [
     "F1 in Schools",
     "F1 in Schools Dubai",
-    "Team Successors",
+    "Successors",
     "STEM Education",
     "Student Engineering",
     "UAE F1 in Schools",
@@ -60,7 +59,7 @@ export const metadata: Metadata = {
     type: "website",
     title: siteConfig.siteName,
     description:
-      "Official website of Team Successors, a premiere F1 in Schools team from Dubai, UAE. Join our journey to the World Finals.",
+      "Official website of Successors, a premiere F1 in Schools team from Dubai, UAE. Join our journey to the World Finals.",
     url: siteConfig.siteUrl,
     siteName: siteConfig.teamName,
     images: [
@@ -68,7 +67,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg", // Placeholder for when image is available
         width: 1200,
         height: 630,
-        alt: "Team Successors - F1 in Schools",
+        alt: "Successors - F1 in Schools",
       },
     ],
   },
@@ -76,7 +75,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.siteName,
     description:
-      "Official website of Team Successors, a premiere F1 in Schools team from Dubai, UAE. Join our journey to the World Finals.",
+      "Official website of Successors, a premiere F1 in Schools team from Dubai, UAE. Join our journey to the World Finals.",
     images: ["/og-image.jpg"],
   },
   robots: {

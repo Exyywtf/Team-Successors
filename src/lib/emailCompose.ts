@@ -1,7 +1,7 @@
 export const CONTACT_EMAIL_ADDRESS = "successorsf1@gmail.com";
 export const CONTACT_EMAIL_SUBJECT =
-  "Partnership enquiry \u2014 Team Successors F1 in Schools";
-export const CONTACT_EMAIL_BODY = `Hi Team Successors,
+  "Partnership enquiry — Successors F1 in Schools";
+export const CONTACT_EMAIL_BODY = `Hi Successors,
 
 I\u2019m reaching out regarding:
 

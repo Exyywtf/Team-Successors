@@ -25,7 +25,7 @@ const engineeringFaqItems: FaqItem[] = [
   {
     question: "What software and machinery do you use to build the car?",
     answer:
-      "We design our concepts using Autodesk Fusion 360, analyze aerodynamics with Ansys CFD, and manufacture the physical chassis using a Denford 2600 CNC router and precision 3D printers.",
+      "We design our concepts using Autodesk Fusion 360, analyze aerodynamics with Ansys CFD, and manufacture the physical chassis using a Lunyee 3018 Pro Ultra CNC router and precision 3D printers.",
   },
   {
     question: "How do you ensure the car is as fast as possible?",
@@ -41,7 +41,7 @@ const engineeringFaqItems: FaqItem[] = [
 
 const enterpriseFaqItems: FaqItem[] = [
   {
-    question: "How can a business partner with the team?",
+    question: "How can a business sponsor the team?",
     answer:
       'We offer multiple sponsorship tiers-from our "Speed" package to our top-tier "Champion" package. Depending on the tier, sponsors receive logo placement, collaborative social media posts, promotional videos, and dedicated representation at our events.',
   },
@@ -80,7 +80,7 @@ function FaqColumn({ heading, items }: { heading: string; items: FaqItem[] }) {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Frequently Asked Questions | Successors F1",
+  title: "FAQ | Successors",
   description:
     "Answers to common questions about F1 in Schools, our car design, sponsorship model, and community outreach.",
   alternates: {
@@ -108,7 +108,7 @@ export default function FaqPage() {
                   href="/contact"
                   className={buttonClasses({ variant: "gold", size: "lg" })}
                 >
-                  Start a Partnership
+                  Start a Sponsorship
                 </Link>
               </div>
             </Reveal>

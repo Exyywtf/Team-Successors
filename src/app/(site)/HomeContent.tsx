@@ -72,7 +72,7 @@ export default function HomeContent() {
               <div className="hero-ornament-column max-w-4xl">
                 <Reveal variant="fadeIn" delay={0.1}>
                   <p className="type-label mb-5 text-[14px] text-[var(--accent)]">
-                    Team Successors
+                    Successors
                   </p>
                 </Reveal>
 
@@ -349,7 +349,7 @@ export default function HomeContent() {
                   {home.deck.title}
                 </p>
                 <h2 className="gold-underline mt-3 font-heading text-2xl sm:text-3xl">
-                  Partner With Clear Outcomes
+                  Sponsor With Clear Outcomes
                 </h2>
                 <p className="copy-sm mt-3 max-w-2xl">
                   {home.deck.description}

@@ -12,7 +12,7 @@ import { siteContent } from "@/lib/content";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Our Partners | Successors F1 - Sponsorship Opportunities & ROI",
+  title: "Our Sponsors | Successors - Sponsorship Opportunities & ROI",
   description:
     "We are powered by industry leaders. Explore our current partners and discover how to join our network.",
   alternates: {
@@ -60,7 +60,7 @@ export default function SponsorsPage() {
                   href="/contact"
                   className={buttonClasses({ variant: "primary", size: "lg" })}
                 >
-                  Partner With Team Successors
+                  Become a Sponsor
                 </Link>
               </div>
             </Card>

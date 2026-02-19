@@ -1,4 +1,4 @@
-const BRAND_DISPLAY_NAME = "Team Successors";
+const BRAND_DISPLAY_NAME = "Successors";
 
 const BRAND_PATTERNS = [
   /\bteam\s*successors\b/gi,
