@@ -39,7 +39,7 @@ const sponsorSpotlightDetails: SponsorSpotlightDetail[] = [
     brandName: "Indiana Delights",
     tier: "Turbo",
     description:
-      "Since 2013, Indiana Delights has been serving bold, authentic flavours that celebrate the power of spice and tradition. Redefining Indian dining in JLT, they blend rich aromas and vibrant presentation to create experiences beyond taste. Driven by passion, precision, and consistency-just like motorsport-they keep our team energised. Our F1 in Schools team thrives on intensity and pushing limits, turning heat into performance. We are proud to partner with a restaurant that understands how the right balance of spice, speed, and skill truly sets excellence apart.",
+      "Founded by Divya and Mahendra, Indiana Delights has been serving bold, authentic flavours that celebrate the power of spice and tradition since 2013. Redefining Indian dining in JLT, they blend rich aromas and vibrant presentation to create experiences beyond taste. Driven by passion, precision, and consistency-just like motorsport-they keep our team energised. Our F1 in Schools team thrives on intensity and pushing limits, turning heat into performance. We are proud to partner with a restaurant that understands how the right balance of spice, speed, and skill truly sets excellence apart.",
   },
   {
     id: "yetkey",
