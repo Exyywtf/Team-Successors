@@ -19,7 +19,11 @@ export default function EnterprisePage() {
 
   return (
     <>
-      <Section atmoId="enterprise-overview" title={enterprisePage.title} subtitle={enterprisePage.subtitle}>
+      <Section
+        atmoId="enterprise-overview"
+        title={enterprisePage.title}
+        subtitle={enterprisePage.subtitle}
+      >
         <Container>
           <Reveal delay={CARD_DELAY_AFTER_HEADER}>
             <Card className="card-pad-roomy hover-info-v2">
@@ -70,7 +74,11 @@ export default function EnterprisePage() {
                       )}
                     </p>
                     <h3 className="font-heading text-xl">{tier.name}</h3>
-                    <EnterpriseBulletList items={tier.benefits} className="mt-4" itemKeyPrefix={tier.name} />
+                    <EnterpriseBulletList
+                      items={tier.benefits}
+                      className="mt-4"
+                      itemKeyPrefix={tier.name}
+                    />
                   </Card>
                 );
               })}
@@ -92,7 +100,11 @@ export default function EnterprisePage() {
             onRevealComplete={() => setPerformanceCountStart(true)}
           >
             <Card className="card-pad-default hover-info-v2">
-              <StatPills stats={enterprisePage.stats} countUpStart={performanceCountStart} countUpStartDelayMs={0} />
+              <StatPills
+                stats={enterprisePage.stats}
+                countUpStart={performanceCountStart}
+                countUpStartDelayMs={0}
+              />
             </Card>
           </Reveal>
         </Container>
@@ -114,4 +126,3 @@ export default function EnterprisePage() {
     </>
   );
 }
-

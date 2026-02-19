@@ -14,7 +14,11 @@ export default function SponsorsPage() {
 
   return (
     <>
-      <Section atmoId="sponsors-overview" title={sponsorsPage.title} subtitle={sponsorsPage.subtitle}>
+      <Section
+        atmoId="sponsors-overview"
+        title={sponsorsPage.title}
+        subtitle={sponsorsPage.subtitle}
+      >
         <Container>
           <SponsorGrid sponsors={sponsors} cardClassName="hover-info-v2" />
         </Container>
@@ -34,10 +38,17 @@ export default function SponsorsPage() {
         <Container>
           <Reveal delay={CARD_DELAY_AFTER_HEADER}>
             <Card className="card-pad-showcase hover-info-v2 text-center">
-              <h2 className="font-heading text-2xl sm:text-3xl">{sponsorsPage.ctaTitle}</h2>
-              <p className="copy-sm mx-auto mt-3 max-w-2xl">{sponsorsPage.ctaDescription}</p>
+              <h2 className="font-heading text-2xl sm:text-3xl">
+                {sponsorsPage.ctaTitle}
+              </h2>
+              <p className="copy-sm mx-auto mt-3 max-w-2xl">
+                {sponsorsPage.ctaDescription}
+              </p>
               <div className="mt-6">
-                <Link href="/contact" className={buttonClasses({ variant: "primary", size: "lg" })}>
+                <Link
+                  href="/contact"
+                  className={buttonClasses({ variant: "primary", size: "lg" })}
+                >
                   Partner With Team Successors
                 </Link>
               </div>

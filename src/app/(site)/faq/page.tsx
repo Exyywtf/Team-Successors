@@ -93,7 +93,10 @@ export default function FaqPage() {
             <FaqColumn heading="Enterprise" items={enterpriseFaqItems} />
             <Reveal delay={CARD_DELAY_AFTER_HEADER}>
               <div className="mt-8">
-                <Link href="/contact" className={buttonClasses({ variant: "gold", size: "lg" })}>
+                <Link
+                  href="/contact"
+                  className={buttonClasses({ variant: "gold", size: "lg" })}
+                >
                   Start a Partnership
                 </Link>
               </div>

@@ -21,7 +21,9 @@ interface ToastCheckmarkLottieProps {
   playKey: number;
 }
 
-export default function ToastCheckmarkLottie({ playKey }: ToastCheckmarkLottieProps) {
+export default function ToastCheckmarkLottie({
+  playKey,
+}: ToastCheckmarkLottieProps) {
   const dotLottieRef = useRef<DotLottie | null>(null);
   const rafIdRef = useRef<number | null>(null);
   const pendingPlayKeyRef = useRef<number | null>(null);
@@ -54,7 +56,9 @@ export default function ToastCheckmarkLottie({ playKey }: ToastCheckmarkLottiePr
       lastPlayedKeyRef.current = targetPlayKey;
       clearRaf();
 
-      const totalFrames = Number.isFinite(dotLottie.totalFrames) ? dotLottie.totalFrames : 0;
+      const totalFrames = Number.isFinite(dotLottie.totalFrames)
+        ? dotLottie.totalFrames
+        : 0;
       const lastFrame = Math.max(0, Math.floor(totalFrames) - 1);
 
       dotLottie.setLoop(false);
@@ -73,7 +77,11 @@ export default function ToastCheckmarkLottie({ playKey }: ToastCheckmarkLottiePr
       const startTime = performance.now();
 
       const animate = (timestamp: number) => {
-        const progress = clamp((timestamp - startTime) / PLAY_DURATION_MS, 0, 1);
+        const progress = clamp(
+          (timestamp - startTime) / PLAY_DURATION_MS,
+          0,
+          1,
+        );
         const eased = easeInOutSine(progress);
         const frame = eased * lastFrame;
         dotLottie.setFrame(frame);
@@ -91,7 +99,7 @@ export default function ToastCheckmarkLottie({ playKey }: ToastCheckmarkLottiePr
 
       rafIdRef.current = window.requestAnimationFrame(animate);
     },
-    [clearRaf, prefersReducedMotion]
+    [clearRaf, prefersReducedMotion],
   );
 
   const handleLoad = useCallback(() => {
@@ -135,7 +143,7 @@ export default function ToastCheckmarkLottie({ playKey }: ToastCheckmarkLottiePr
         handleLoad();
       }
     },
-    [handleLoad, handleLoadError]
+    [handleLoad, handleLoadError],
   );
 
   useEffect(() => {

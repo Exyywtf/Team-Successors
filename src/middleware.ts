@@ -8,7 +8,7 @@ const DECK_HIDDEN_PATHS = new Set([
   "/deck",
   "/partnership-deck",
   "/partnership-deck/",
-  "/partners/deck"
+  "/partners/deck",
 ]);
 
 export function middleware(request: NextRequest) {
@@ -25,6 +25,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/deck.pdf", "/deck", "/partnership-deck/:path*", "/partners/deck"]
+  matcher: ["/deck.pdf", "/deck", "/partnership-deck/:path*", "/partners/deck"],
 };
-

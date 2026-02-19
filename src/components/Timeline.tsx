@@ -19,7 +19,11 @@ export default function Timeline({ steps }: TimelineProps) {
         const Icon = icons[index % icons.length];
 
         return (
-          <Reveal key={step.title} delay={CARD_DELAY_AFTER_HEADER + index * 0.08} variant="fadeUp">
+          <Reveal
+            key={step.title}
+            delay={CARD_DELAY_AFTER_HEADER + index * 0.08}
+            variant="fadeUp"
+          >
             <Card className="card-pad-default relative">
               <div className="mb-4 inline-flex rounded-full border border-[var(--border)] bg-[var(--surface)] p-2 text-[var(--accent)]">
                 <Icon size={18} aria-hidden />
@@ -27,7 +31,9 @@ export default function Timeline({ steps }: TimelineProps) {
               <p className="tier-chip mb-4 w-fit">{step.tool}</p>
               <h3 className="font-heading text-xl">{step.title}</h3>
               <p className="copy-sm mt-3">{step.description}</p>
-              <p className="mt-4 text-xs uppercase tracking-[0.15em] text-[var(--accent)]">{step.outcome}</p>
+              <p className="mt-4 text-xs uppercase tracking-[0.15em] text-[var(--accent)]">
+                {step.outcome}
+              </p>
             </Card>
           </Reveal>
         );

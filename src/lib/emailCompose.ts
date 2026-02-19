@@ -1,5 +1,6 @@
 export const CONTACT_EMAIL_ADDRESS = "successorsf1@gmail.com";
-export const CONTACT_EMAIL_SUBJECT = "Partnership enquiry \u2014 Team Successors F1 in Schools";
+export const CONTACT_EMAIL_SUBJECT =
+  "Partnership enquiry \u2014 Team Successors F1 in Schools";
 export const CONTACT_EMAIL_BODY = `Hi Team Successors,
 
 I\u2019m reaching out regarding:
@@ -25,7 +26,7 @@ export function buildGmailComposeUrl(options: ComposeOptions = {}) {
     fs: "1",
     to,
     su: subject,
-    body
+    body,
   });
 
   return `https://mail.google.com/mail/?${params.toString()}`;
@@ -38,7 +39,7 @@ export function buildOutlookComposeUrl(options: ComposeOptions = {}) {
   const params = new URLSearchParams({
     to,
     subject,
-    body
+    body,
   });
 
   return `https://outlook.office.com/mail/deeplink/compose?${params.toString()}`;

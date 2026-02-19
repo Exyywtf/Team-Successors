@@ -10,13 +10,38 @@ import CountUpText from "@/components/ui/CountUpText";
 
 const F1_IN_SCHOOLS_DESCRIPTION =
   "Running in the UAE since 2009, the Formula 1\u00AE STEM Challenge is one of the biggest international STEAM competitions in the world, seeing teams of 3 to 6 students plan, research, design, analyse, manufacture and test a miniature 'F1\u00AE car' using CAD/CAM/CNC tools.";
-const F1_IN_SCHOOLS_SUBHEADING = "The World\u2019s Largest International STEM Challenge.";
+const F1_IN_SCHOOLS_SUBHEADING =
+  "The World\u2019s Largest International STEM Challenge.";
 
 const IMPACT_STATS = [
-  { to: 113, label: "Schools Participating", ariaLabel: "113", suffix: "", durationMs: 800 },
-  { to: 1140, label: "Students Participating", ariaLabel: "1,140", suffix: "", durationMs: 900 },
-  { to: 85, label: "National Teams", ariaLabel: "85", suffix: "", durationMs: 800 },
-  { to: 31000, label: "Online Views", ariaLabel: "31,000+", suffix: "+", durationMs: 900 },
+  {
+    to: 113,
+    label: "Schools Participating",
+    ariaLabel: "113",
+    suffix: "",
+    durationMs: 800,
+  },
+  {
+    to: 1140,
+    label: "Students Participating",
+    ariaLabel: "1,140",
+    suffix: "",
+    durationMs: 900,
+  },
+  {
+    to: 85,
+    label: "National Teams",
+    ariaLabel: "85",
+    suffix: "",
+    durationMs: 800,
+  },
+  {
+    to: 31000,
+    label: "Online Views",
+    ariaLabel: "31,000+",
+    suffix: "+",
+    durationMs: 900,
+  },
 ] as const;
 
 export default function F1InSchoolsIntro() {
@@ -52,7 +77,10 @@ export default function F1InSchoolsIntro() {
                   delay={CARD_DELAY_AFTER_HEADER + index * 0.06}
                   animate={showStats ? "visible" : "hidden"}
                 >
-                  <Card className="card-pad-default hover-info-v1" cardType="info">
+                  <Card
+                    className="card-pad-default hover-info-v1"
+                    cardType="info"
+                  >
                     <p className="font-heading text-2xl text-[var(--accent)] sm:text-3xl">
                       <CountUpText
                         to={stat.to}

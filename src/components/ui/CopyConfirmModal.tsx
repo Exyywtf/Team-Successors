@@ -8,7 +8,7 @@ import {
   panelVariants,
   reducedBackdropVariants,
   reducedModalTransition,
-  reducedPanelVariants
+  reducedPanelVariants,
 } from "@/components/motion/modalVariants";
 
 interface CopyConfirmModalProps {
@@ -17,11 +17,21 @@ interface CopyConfirmModalProps {
   onCloseComplete?: () => void;
 }
 
-export default function CopyConfirmModal({ open, message, onCloseComplete }: CopyConfirmModalProps) {
+export default function CopyConfirmModal({
+  open,
+  message,
+  onCloseComplete,
+}: CopyConfirmModalProps) {
   const prefersReducedMotion = useReducedMotion();
-  const overlayMotionVariants = prefersReducedMotion ? reducedBackdropVariants : backdropVariants;
-  const panelMotionVariants = prefersReducedMotion ? reducedPanelVariants : panelVariants;
-  const activeTransition = prefersReducedMotion ? reducedModalTransition : modalTransition;
+  const overlayMotionVariants = prefersReducedMotion
+    ? reducedBackdropVariants
+    : backdropVariants;
+  const panelMotionVariants = prefersReducedMotion
+    ? reducedPanelVariants
+    : panelVariants;
+  const activeTransition = prefersReducedMotion
+    ? reducedModalTransition
+    : modalTransition;
 
   return (
     <AnimatePresence onExitComplete={onCloseComplete}>
@@ -46,7 +56,10 @@ export default function CopyConfirmModal({ open, message, onCloseComplete }: Cop
             aria-live="polite"
           >
             <div className="flex flex-col items-center text-center">
-              <CheckCircle2 className="h-[72px] w-[72px] text-[var(--obsidian-purple)] drop-shadow-[0_0_18px_rgba(58,12,163,0.45)]" strokeWidth={1.9} />
+              <CheckCircle2
+                className="h-[72px] w-[72px] text-[var(--obsidian-purple)] drop-shadow-[0_0_18px_rgba(58,12,163,0.45)]"
+                strokeWidth={1.9}
+              />
               <p className="type-subtitle mt-5 max-w-[34ch]">{message}</p>
             </div>
           </motion.div>

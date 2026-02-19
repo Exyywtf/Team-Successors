@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 let HERO_HAS_LOADED_ONCE = false;
@@ -15,17 +22,19 @@ export default function PersistentHeroVideo() {
   // 1. Using strict rgba() instead of "transparent" fixes cross-browser hard lines.
   // 2. Ending at 95% ensures it hits true zero opacity *before* the container ends.
   const heroMediaMaskStyle: CSSProperties = {
-    maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
-    WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
+    maskImage:
+      "linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
+    WebkitMaskImage:
+      "linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 95%)",
     transform: "translateZ(0)",
   };
 
-  const handlePlaying = () => {
+  const handlePlaying = useCallback(() => {
     if (!ready) {
       setReady(true);
       HERO_HAS_LOADED_ONCE = true;
     }
-  };
+  }, [ready]);
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -42,7 +51,7 @@ export default function PersistentHeroVideo() {
     if (playPromise !== undefined) {
       playPromise.catch(() => {});
     }
-  }, []);
+  }, [handlePlaying]);
 
   return (
     <div
@@ -70,10 +79,16 @@ export default function PersistentHeroVideo() {
           data-hero-media-wrapper
           className="absolute inset-x-0 top-0 h-full overflow-hidden"
         >
-          <img
+          {/* 
+            High-priority static image serves as immediate LCP element.
+            Fades out or stays behind video as a fallback.
+           */}
+          <Image
             src="/brand/hero.jpg"
             alt=""
-            className="absolute inset-0 h-full w-full object-cover"
+            fill
+            className="object-cover"
+            priority
           />
 
           <video

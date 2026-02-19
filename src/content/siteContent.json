@@ -33,7 +33,14 @@
       "label": "Partner With Us",
       "href": "/enterprise"
     },
-    "kineticWords": ["LEGACY", "PRECISION", "CFD", "SUCCESSORS", "CNC", "VELOCITY"]
+    "kineticWords": [
+      "LEGACY",
+      "PRECISION",
+      "CFD",
+      "SUCCESSORS",
+      "CNC",
+      "VELOCITY"
+    ]
   },
   "home": {
     "sponsorStripTitle": "Trusted by sponsors powering our race to nationals.",
@@ -299,22 +306,38 @@
       {
         "name": "Champion",
         "minimumAed": "15,000+ AED",
-        "benefits": ["Primary car branding", "Lead content placement", "Exclusive campaign integration"]
+        "benefits": [
+          "Primary car branding",
+          "Lead content placement",
+          "Exclusive campaign integration"
+        ]
       },
       {
         "name": "Nitro",
         "minimumAed": "10,000+ AED",
-        "benefits": ["Premium logo placement", "Dedicated sponsor feature", "Joint outreach co-branding"]
+        "benefits": [
+          "Premium logo placement",
+          "Dedicated sponsor feature",
+          "Joint outreach co-branding"
+        ]
       },
       {
         "name": "Turbo",
         "minimumAed": "5,000+ AED",
-        "benefits": ["Team asset logo placement", "Social shoutout package", "Event mention rights"]
+        "benefits": [
+          "Team asset logo placement",
+          "Social shoutout package",
+          "Event mention rights"
+        ]
       },
       {
         "name": "Speed",
         "minimumAed": "1,000+ AED",
-        "benefits": ["Supporter listing", "Digital appreciation post", "Community campaign inclusion"]
+        "benefits": [
+          "Supporter listing",
+          "Digital appreciation post",
+          "Community campaign inclusion"
+        ]
       }
     ],
     "stats": [

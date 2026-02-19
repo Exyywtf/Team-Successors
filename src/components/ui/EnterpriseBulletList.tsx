@@ -20,8 +20,14 @@ export default function EnterpriseBulletList({
   return (
     <ul className={cn("space-y-2 text-sm muted-copy", className)}>
       {items.map((item, index) => (
-        <li key={`${itemKeyPrefix}-${index}-${item}`} className={cn("flex gap-2", itemClassName)}>
-          <span aria-hidden className={cn("text-[var(--accent)]", bulletClassName)}>
+        <li
+          key={`${itemKeyPrefix}-${index}-${item}`}
+          className={cn("flex gap-2", itemClassName)}
+        >
+          <span
+            aria-hidden
+            className={cn("text-[var(--accent)]", bulletClassName)}
+          >
             &bull;
           </span>
           <span>{item}</span>
@@ -30,4 +36,3 @@ export default function EnterpriseBulletList({
     </ul>
   );
 }
-

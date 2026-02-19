@@ -7,7 +7,7 @@ import ImageWithFallback from "@/components/ImageWithFallback";
 import {
   TEAM_MEDIA_BACKGROUND_CLASS,
   TEAM_MEDIA_FADE_STYLE,
-  TEAM_MEDIA_OVERLAY_SIZE_CLASS
+  TEAM_MEDIA_OVERLAY_SIZE_CLASS,
 } from "@/components/media/teamMediaStyles";
 import { easeOutExpo, navIndicatorTransition } from "@/components/motion";
 import { navItemClasses } from "@/components/uiClasses";
@@ -33,7 +33,7 @@ export default function GalleryGrid({
 }: GalleryGridProps) {
   const prefersReducedMotion = useReducedMotion();
   const resolvedDefaultTab =
-    defaultTab && tabs.includes(defaultTab) ? defaultTab : tabs[0] ?? "All";
+    defaultTab && tabs.includes(defaultTab) ? defaultTab : (tabs[0] ?? "All");
   const [activeTab, setActiveTab] = useState<GalleryTab>(resolvedDefaultTab);
 
   useEffect(() => {
@@ -42,6 +42,13 @@ export default function GalleryGrid({
     }
   }, [activeTab, resolvedDefaultTab, tabs]);
 
+  /*
+   * Filter Logic
+   * 
+   * Memoized filtering based on the active tab.
+   * Matches item tags/categories against the selected tab (case-insensitive).
+   * Returns all items if "All" is selected.
+   */
   const filteredItems = useMemo(() => {
     if (activeTab === "All") {
       return items;
@@ -57,7 +64,11 @@ export default function GalleryGrid({
   return (
     <div>
       {showTabs ? (
-        <div role="tablist" aria-label="Engineering gallery filters" className="mb-6 flex flex-wrap gap-2">
+        <div
+          role="tablist"
+          aria-label="Engineering gallery filters"
+          className="mb-6 flex flex-wrap gap-2"
+        >
           {tabs.map((tab) => {
             const isActive = activeTab === tab;
 
@@ -76,7 +87,11 @@ export default function GalleryGrid({
                   <motion.span
                     layoutId="gallery-tab-indicator"
                     className="absolute inset-0 rounded-full bg-[color:color-mix(in_srgb,var(--accent)_10%,transparent)]"
-                    transition={prefersReducedMotion ? { duration: 0 } : navIndicatorTransition}
+                    transition={
+                      prefersReducedMotion
+                        ? { duration: 0 }
+                        : navIndicatorTransition
+                    }
                   />
                 ) : null}
                 <span className="relative z-10">{tab}</span>
@@ -95,19 +110,35 @@ export default function GalleryGrid({
       >
         <AnimatePresence initial={false} mode="popLayout">
           {filteredItems.map((item) => {
-            const usesEngineeringMedia = Boolean(item.mediaType && item.mediaSrc);
-            const isRenderMedia = usesEngineeringMedia && item.mediaType === "render";
+            const usesEngineeringMedia = Boolean(
+              item.mediaType && item.mediaSrc,
+            );
+            const isRenderMedia =
+              usesEngineeringMedia && item.mediaType === "render";
             const isCfdMedia = usesEngineeringMedia && item.mediaType === "cfd";
-            const isBackgroundMedia = usesEngineeringMedia && item.mediaType === "background";
+            const isBackgroundMedia =
+              usesEngineeringMedia && item.mediaType === "background";
 
             return (
               <motion.div
                 key={item.id}
-                layoutId={`eng-card-${item.id}`}
-                layout={!prefersReducedMotion}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 10, scale: 0.99 }}
-                animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
-                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -8, scale: 0.99 }}
+                layoutId={`eng-card-${item.id}`} // Enables shared element transitions if needed
+                layout={!prefersReducedMotion} // Animate layout changes (reordering/filtering)
+                initial={
+                  prefersReducedMotion
+                    ? false
+                    : { opacity: 0, y: 10, scale: 0.99 }
+                }
+                animate={
+                  prefersReducedMotion
+                    ? { opacity: 1 }
+                    : { opacity: 1, y: 0, scale: 1 }
+                }
+                exit={
+                  prefersReducedMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, y: -8, scale: 0.99 }
+                }
                 transition={
                   prefersReducedMotion
                     ? { duration: 0.12 }
@@ -115,18 +146,24 @@ export default function GalleryGrid({
                         opacity: { duration: 0.2, ease: easeOutExpo },
                         y: { duration: 0.2, ease: easeOutExpo },
                         scale: { duration: 0.2, ease: easeOutExpo },
-                        layout: { duration: 0.32, ease: easeOutExpo }
+                        layout: { duration: 0.32, ease: easeOutExpo },
                       }
                 }
               >
                 <Card className="overflow-hidden">
                   <div
                     className="relative h-52 w-full overflow-hidden"
-                    data-engineering-media-wrapper={usesEngineeringMedia ? "1" : undefined}
+                    data-engineering-media-wrapper={
+                      usesEngineeringMedia ? "1" : undefined
+                    }
                   >
                     {isRenderMedia ? (
                       <>
-                        <div aria-hidden="true" className={TEAM_MEDIA_BACKGROUND_CLASS} style={TEAM_MEDIA_FADE_STYLE} />
+                        <div
+                          aria-hidden="true"
+                          className={TEAM_MEDIA_BACKGROUND_CLASS}
+                          style={TEAM_MEDIA_FADE_STYLE}
+                        />
                         <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
                           <ImageWithFallback
                             src={item.mediaSrc ?? item.image}
@@ -141,7 +178,10 @@ export default function GalleryGrid({
                       <div
                         aria-hidden="true"
                         className={TEAM_MEDIA_BACKGROUND_CLASS}
-                        style={{ ...TEAM_MEDIA_FADE_STYLE, backgroundImage: `url('${item.mediaSrc ?? item.image}')` }}
+                        style={{
+                          ...TEAM_MEDIA_FADE_STYLE,
+                          backgroundImage: `url('${item.mediaSrc ?? item.image}')`,
+                        }}
                       />
                     ) : (
                       <>
@@ -156,7 +196,7 @@ export default function GalleryGrid({
                           className="pointer-events-none absolute inset-0"
                           style={{
                             background:
-                              "linear-gradient(180deg, rgba(58, 12, 163, 0) 20%, rgba(10, 10, 14, 0.52) 66%, rgba(5, 5, 5, 0.82) 100%)"
+                              "linear-gradient(180deg, rgba(58, 12, 163, 0) 20%, rgba(10, 10, 14, 0.52) 66%, rgba(5, 5, 5, 0.82) 100%)",
                           }}
                         />
                       </>

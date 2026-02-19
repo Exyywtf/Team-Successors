@@ -7,7 +7,7 @@ export type ButtonSize = "md" | "lg";
 export function buttonClasses({
   variant = "primary",
   size = "md",
-  className
+  className,
 }: {
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -15,9 +15,13 @@ export function buttonClasses({
 }) {
   return cn(
     "btn-base focus-ring sheen",
-    variant === "primary" ? "btn-primary" : variant === "gold" ? "btn-gold" : "btn-ghost",
+    variant === "primary"
+      ? "btn-primary"
+      : variant === "gold"
+        ? "btn-gold"
+        : "btn-ghost",
     size === "lg" ? "btn-lg" : "btn-md",
-    className
+    className,
   );
 }
 
@@ -28,9 +32,15 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant = "primary", size = "md", className, ...props },
-  ref
+  ref,
 ) {
-  return <button ref={ref} className={buttonClasses({ variant, size, className })} {...props} />;
+  return (
+    <button
+      ref={ref}
+      className={buttonClasses({ variant, size, className })}
+      {...props}
+    />
+  );
 });
 
 export default Button;

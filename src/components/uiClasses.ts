@@ -6,7 +6,7 @@ export type LinkTone = "default" | "accent";
 export function linkClasses({
   variant = "inline",
   tone = "default",
-  className
+  className,
 }: {
   variant?: LinkVariant;
   tone?: LinkTone;
@@ -18,7 +18,7 @@ export function linkClasses({
       ? "link-inline rounded px-1 py-0.5 transition-colors duration-200"
       : "footer-link-lightup rounded-md px-1 py-0.5",
     tone === "accent" && "text-[var(--accent)]",
-    className
+    className,
   );
 }
 
@@ -27,7 +27,7 @@ export type NavItemVariant = "desktop" | "mobileLabel" | "tab";
 export function navItemClasses({
   variant,
   active = false,
-  className
+  className,
 }: {
   variant: NavItemVariant;
   active?: boolean;
@@ -37,7 +37,7 @@ export function navItemClasses({
     return cn(
       "nav-link focus-ring relative px-5 py-2 transition-colors duration-200",
       active ? "text-white font-medium" : "text-white/60 hover:text-white",
-      className
+      className,
     );
   }
 
@@ -45,7 +45,7 @@ export function navItemClasses({
     return cn(
       "relative z-10 nav-link whitespace-nowrap !px-0 !py-0 text-xs tracking-widest",
       active ? "text-white font-medium" : "text-white/60",
-      className
+      className,
     );
   }
 
@@ -54,7 +54,7 @@ export function navItemClasses({
     active
       ? "border-[color:color-mix(in_srgb,var(--accent)_52%,transparent)] text-[var(--accent)]"
       : "border-[var(--border)] bg-[var(--surface)] text-[var(--muted)] hover:text-main",
-    className
+    className,
   );
 }
 

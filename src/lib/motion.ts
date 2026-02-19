@@ -2,13 +2,26 @@ import type { Transition, Variants } from "framer-motion";
 
 /* ─── Motion DNA ─── */
 
-/** Primary easing — smooth deceleration, "expensive" feel */
-export const easeOutCubic: [number, number, number, number] = [0.22, 1, 0.36, 1];
+/** 
+ * Primary easing (Cubic): Used for standard UI transitions.
+ * Provides a "expensive" feel with smooth deceleration.
+ */
+export const easeOutCubic: [number, number, number, number] = [
+  0.22, 1, 0.36, 1,
+];
 
-/** Secondary easing — slightly more elastic, confident feel */
-export const easeOutQuint: [number, number, number, number] = [0.33, 1, 0.68, 1];
+/** 
+ * Secondary easing (Quint): More elastic and confident.
+ * Good for entering elements that need to pop.
+ */
+export const easeOutQuint: [number, number, number, number] = [
+  0.33, 1, 0.68, 1,
+];
 
-/** Snappy entrance easing — fast attack, smooth settle */
+/** 
+ * Snappy easing (Expo): Fast attack, smooth settle.
+ * Ideal for critical interactions (modals, dropdowns) where responsiveness is key.
+ */
 export const easeOutExpo: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ─── Duration Scale ─── */
@@ -64,15 +77,14 @@ export type RevealVariant =
   | "slideLeft"
   | "slideRight";
 
-export type SectionType =
-  | "default"
-  | "dense"
-  | "showcase"
-  | "hero";
+export type SectionType = "default" | "dense" | "showcase" | "hero";
 
 /* ─── Reveal Variants Factory ─── */
 
-const sectionTypeConfig: Record<SectionType, { y: number; scale: number; blur: number; duration: number }> = {
+const sectionTypeConfig: Record<
+  SectionType,
+  { y: number; scale: number; blur: number; duration: number }
+> = {
   hero: { y: 0, scale: 0.96, blur: 6, duration: duration.slow },
   showcase: { y: 28, scale: 1, blur: 0, duration: 0.55 },
   default: { y: 20, scale: 1, blur: 0, duration: duration.medium },
@@ -95,7 +107,10 @@ export function getRevealVariants({
   switch (variant) {
     case "fadeIn":
       return {
-        hidden: { opacity: 0, filter: config.blur ? `blur(${config.blur}px)` : undefined },
+        hidden: {
+          opacity: 0,
+          filter: config.blur ? `blur(${config.blur}px)` : undefined,
+        },
         visible: {
           opacity: 1,
           filter: config.blur ? "blur(0px)" : undefined,
@@ -105,7 +120,11 @@ export function getRevealVariants({
 
     case "scaleIn":
       return {
-        hidden: { opacity: 0, scale: config.scale, filter: config.blur ? `blur(${config.blur}px)` : undefined },
+        hidden: {
+          opacity: 0,
+          scale: config.scale,
+          filter: config.blur ? `blur(${config.blur}px)` : undefined,
+        },
         visible: {
           opacity: 1,
           scale: 1,
@@ -176,7 +195,10 @@ export const staggerItemVariants: Variants = {
 
 export type CardType = "feature" | "pricing" | "info";
 
-export const cardHoverConfig: Record<CardType, { y: number; scale: number; shadow: string }> = {
+export const cardHoverConfig: Record<
+  CardType,
+  { y: number; scale: number; shadow: string }
+> = {
   feature: { y: -6, scale: 1.008, shadow: "var(--glow-purple-focus)" },
   pricing: { y: -4, scale: 1.004, shadow: "var(--glow-gold-focus)" },
   info: { y: -3, scale: 1, shadow: "var(--glow-purple-soft)" },

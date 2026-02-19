@@ -15,12 +15,7 @@ export default function Head() {
         type="video/webm"
         fetchPriority="high"
       />
-      <link
-        rel="preload"
-        as="video"
-        href="/brand/hero.mp4"
-        type="video/mp4"
-      />
+      <link rel="preload" as="video" href="/brand/hero.mp4" type="video/mp4" />
     </>
   );
 }

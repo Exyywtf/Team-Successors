@@ -41,7 +41,11 @@ export default function Section({
   ...props
 }: SectionProps) {
   const spacingClass =
-    spacing === "hero" ? "section-hero" : spacing === "tight" ? "section-tight" : "section-pad";
+    spacing === "hero"
+      ? "section-hero"
+      : spacing === "tight"
+        ? "section-tight"
+        : "section-pad";
 
   return (
     <section
@@ -49,8 +53,8 @@ export default function Section({
       className={cn(spacingClass, className)}
       data-atmo-section={atmoSection ? "1" : undefined}
       data-atmo-id={atmoSection ? atmoId : undefined}
-      data-atmo-anchor-x={atmoSection ? atmoAnchorX ?? atmoSpot : undefined}
-      data-atmo-anchor-y={atmoSection ? atmoAnchorY ?? atmoSpotY : undefined}
+      data-atmo-anchor-x={atmoSection ? (atmoAnchorX ?? atmoSpot) : undefined}
+      data-atmo-anchor-y={atmoSection ? (atmoAnchorY ?? atmoSpotY) : undefined}
       data-atmo-spot={atmoSection ? atmoSpot : undefined}
       data-atmo-spot-y={atmoSection ? atmoSpotY : undefined}
       {...props}
@@ -59,11 +63,16 @@ export default function Section({
         <div
           className={cn(
             "mx-auto mb-[calc(var(--section-header-gap)*1.12)] max-w-[1200px] px-5 sm:px-7 lg:px-12 2xl:px-14",
-            headerClassName
+            headerClassName,
           )}
         >
           {title ? (
-            <TextReveal as="h2" className="gold-underline type-title" type="words" stagger={SECTION_TITLE_WORD_STAGGER}>
+            <TextReveal
+              as="h2"
+              className="gold-underline type-title"
+              type="words"
+              stagger={SECTION_TITLE_WORD_STAGGER}
+            >
               {title}
             </TextReveal>
           ) : null}
@@ -79,7 +88,10 @@ export default function Section({
               {subtitle}
             </TextReveal>
           ) : null}
-          <div className="divider-soft mt-[calc(var(--section-header-gap)*0.82)]" aria-hidden />
+          <div
+            className="divider-soft mt-[calc(var(--section-header-gap)*0.82)]"
+            aria-hidden
+          />
         </div>
       )}
       {children}

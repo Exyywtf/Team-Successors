@@ -12,14 +12,21 @@ interface StatPillsProps {
   countUpStartDelayMs?: number;
 }
 
-export default function StatPills({ stats, countUpStart = true, countUpStartDelayMs = 100 }: StatPillsProps) {
+export default function StatPills({
+  stats,
+  countUpStart = true,
+  countUpStartDelayMs = 100,
+}: StatPillsProps) {
   const prefersReducedMotion = useReducedMotion();
   const id = useId().replace(/[:]/g, "");
   const { ref, isRevealed } = useRevealOnce(`stat-pills-${id}`, {
     amount: 0.3,
-    disabled: Boolean(prefersReducedMotion)
+    disabled: Boolean(prefersReducedMotion),
   });
-  const targetAnimation = prefersReducedMotion || isRevealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 };
+  const targetAnimation =
+    prefersReducedMotion || isRevealed
+      ? { opacity: 1, y: 0 }
+      : { opacity: 0, y: 10 };
 
   return (
     <div ref={ref as Ref<HTMLDivElement>} className="flex flex-wrap gap-2">
@@ -35,7 +42,11 @@ export default function StatPills({ stats, countUpStart = true, countUpStartDela
             transition={
               prefersReducedMotion
                 ? { duration: 0 }
-                : { duration: 0.35, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }
+                : {
+                    duration: 0.35,
+                    delay: index * 0.05,
+                    ease: [0.22, 1, 0.36, 1],
+                  }
             }
           >
             <strong className="mr-2 font-heading text-[var(--accent)]">

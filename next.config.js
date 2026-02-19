@@ -10,12 +10,12 @@ const nextConfig = {
           "**/pagefile.sys",
           "**/swapfile.sys",
           "**/DumpStack.log.tmp",
-          "**/System Volume Information/**"
-        ]
-      }
+          "**/System Volume Information/**",
+        ],
+      };
     }
 
-    return config
-  }
-}
-module.exports = nextConfig
+    return config;
+  },
+};
+module.exports = nextConfig;

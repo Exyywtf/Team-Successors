@@ -63,9 +63,30 @@ const mobileMenuListVariants: Variants = {
   },
 };
 
-type MobileMenuPhase = "closed" | "opening" | "open" | "closingItems" | "closingShell";
+/**
+ * Mobile Menu State Machine
+ * 
+ * Uses explicit phases to coordinate the multi-part exit animation:
+ * 1. closed -> opening -> open
+ * 2. open -> closingItems (Fades out links first)
+ * 3. closingItems -> closingShell (Collapse the container afterwards)
+ * 4. closingShell -> closed
+ */
+type MobileMenuPhase =
+  | "closed"
+  | "opening"
+  | "open"
+  | "closingItems"
+  | "closingShell";
 
-const mobilePrimaryRouteOrder = ["/", "/team", "/engineering", "/enterprise", "/sponsors", "/faq"] as const;
+const mobilePrimaryRouteOrder = [
+  "/",
+  "/team",
+  "/engineering",
+  "/enterprise",
+  "/sponsors",
+  "/faq",
+] as const;
 const NAV_SCROLL_DOWNSHIFT_PX = 8;
 
 function isRouteActive(pathname: string, href: string) {
@@ -79,7 +100,12 @@ interface NavbarDesktopProps {
   prefersReducedMotion: boolean;
 }
 
-function NavbarDesktop({ isScrolled, pathname, navLinks, prefersReducedMotion }: NavbarDesktopProps) {
+function NavbarDesktop({
+  isScrolled,
+  pathname,
+  navLinks,
+  prefersReducedMotion,
+}: NavbarDesktopProps) {
   return (
     <motion.div
       layout
@@ -87,13 +113,19 @@ function NavbarDesktop({ isScrolled, pathname, navLinks, prefersReducedMotion }:
       className={cn(
         NAV_OUTER_CLASS,
         "hidden w-full md:mx-auto md:w-max md:flex-col xl:inline-flex",
-        navOuterSurfaceClass(isScrolled)
+        navOuterSurfaceClass(isScrolled),
       )}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div data-navbar-row className="flex items-center gap-4 px-4 py-2.5 md:px-5">
+      <div
+        data-navbar-row
+        className="flex items-center gap-4 px-4 py-2.5 md:px-5"
+      >
         <div data-navbar-brand className="flex shrink-0 items-center">
-          <Link href="/" className="focus-ring inline-flex shrink-0 items-center gap-3 rounded-lg py-1 group">
+          <Link
+            href="/"
+            className="focus-ring inline-flex shrink-0 items-center gap-3 rounded-lg py-1 group"
+          >
             <div className="relative">
               <div className="absolute inset-0 bg-white/20 blur opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
               <Image
@@ -115,10 +147,13 @@ function NavbarDesktop({ isScrolled, pathname, navLinks, prefersReducedMotion }:
           data-navbar-inner
           className={cn(
             NAV_INNER_GLASS_CLASS,
-            "relative hidden w-fit shrink-0 items-center gap-4 rounded-full p-1.5 md:inline-flex"
+            "relative hidden w-fit shrink-0 items-center gap-4 rounded-full p-1.5 md:inline-flex",
           )}
         >
-          <nav className="flex w-fit items-center gap-1.5" aria-label="Main navigation">
+          <nav
+            className="flex w-fit items-center gap-1.5"
+            aria-label="Main navigation"
+          >
             {navLinks.map((item) => {
               const isActive = isRouteActive(pathname, item.href);
 
@@ -127,16 +162,25 @@ function NavbarDesktop({ isScrolled, pathname, navLinks, prefersReducedMotion }:
                   key={item.href}
                   href={item.href}
                   aria-current={isActive ? "page" : undefined}
-                  className={navItemClasses({ variant: "desktop", active: isActive })}
+                  className={navItemClasses({
+                    variant: "desktop",
+                    active: isActive,
+                  })}
                 >
                   {isActive ? (
                     <motion.span
                       layoutId="nav-active-pill-desktop"
                       className="absolute inset-0 rounded-full bg-white/10 border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                      transition={prefersReducedMotion ? { duration: 0 } : navIndicatorTransition}
+                      transition={
+                        prefersReducedMotion
+                          ? { duration: 0 }
+                          : navIndicatorTransition
+                      }
                     />
                   ) : null}
-                  <span className="relative z-10 text-[0.8rem] tracking-widest">{item.label}</span>
+                  <span className="relative z-10 text-[0.8rem] tracking-widest">
+                    {item.label}
+                  </span>
                 </Link>
               );
             })}
@@ -146,7 +190,10 @@ function NavbarDesktop({ isScrolled, pathname, navLinks, prefersReducedMotion }:
         <div data-navbar-contact className="flex shrink-0 items-center">
           <Link
             href="/contact"
-            className={cn(buttonClasses({ variant: "gold", size: "md" }), "hidden min-w-[130px] md:inline-flex")}
+            className={cn(
+              buttonClasses({ variant: "gold", size: "md" }),
+              "hidden min-w-[130px] md:inline-flex",
+            )}
           >
             Contact
           </Link>
@@ -202,36 +249,60 @@ function NavbarMobile({
       const outerOpenTarget = {
         opacity: 1,
         clipPath: outerOpenClipPath,
-        transition: prefersReducedMotion ? { duration: 0 } : { duration: 0.24, ease: easeOutExpo },
+        transition: prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: 0.24, ease: easeOutExpo },
       } as unknown as TargetAndTransition;
       const outerClosedTarget = {
         opacity: 0,
         clipPath: outerClosedClipPath,
-        transition: prefersReducedMotion ? { duration: 0 } : { duration: 0.22, ease: easeOutExpo },
+        transition: prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: 0.22, ease: easeOutExpo },
       } as unknown as TargetAndTransition;
       const innerOpenTarget = {
         opacity: 1,
         clipPath: innerOpenClipPath,
-        transition: prefersReducedMotion ? { duration: 0 } : { duration: 0.24, ease: easeOutExpo },
+        transition: prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: 0.24, ease: easeOutExpo },
       } as unknown as TargetAndTransition;
       const innerClosedTarget = {
         opacity: 0,
         clipPath: innerClosedClipPath,
-        transition: prefersReducedMotion ? { duration: 0 } : { duration: 0.22, ease: easeOutExpo },
+        transition: prefersReducedMotion
+          ? { duration: 0 }
+          : { duration: 0.22, ease: easeOutExpo },
       } as unknown as TargetAndTransition;
       const outerOpeningTarget = prefersReducedMotion
         ? outerOpenTarget
         : ({
             opacity: [0, 1, 1],
-            clipPath: [outerClosedClipPath, outerOpenClipPath, outerOpenClipPath],
-            transition: { duration: 0.24, ease: easeOutExpo, times: [0, 0.9, 1] },
+            clipPath: [
+              outerClosedClipPath,
+              outerOpenClipPath,
+              outerOpenClipPath,
+            ],
+            transition: {
+              duration: 0.24,
+              ease: easeOutExpo,
+              times: [0, 0.9, 1],
+            },
           } as unknown as TargetAndTransition);
       const innerOpeningTarget = prefersReducedMotion
         ? innerOpenTarget
         : ({
             opacity: [0, 1, 1],
-            clipPath: [innerClosedClipPath, innerOpenClipPath, innerOpenClipPath],
-            transition: { duration: 0.24, ease: easeOutExpo, times: [0, 0.9, 1] },
+            clipPath: [
+              innerClosedClipPath,
+              innerOpenClipPath,
+              innerOpenClipPath,
+            ],
+            transition: {
+              duration: 0.24,
+              ease: easeOutExpo,
+              times: [0, 0.9, 1],
+            },
           } as unknown as TargetAndTransition);
 
       if (menuPhase === "opening") {
@@ -270,13 +341,17 @@ function NavbarMobile({
       if (menuPhase === "closingShell") {
         await outerShellControls.start({
           "--nav-outer-pad": "0px",
-          transition: prefersReducedMotion ? { duration: 0 } : { duration: 0.16, ease: easeOutExpo },
+          transition: prefersReducedMotion
+            ? { duration: 0 }
+            : { duration: 0.16, ease: easeOutExpo },
         } as unknown as TargetAndTransition);
         await Promise.all([
           outerShellControls.start(outerClosedTarget),
           innerShellControls.start(innerClosedTarget),
         ]);
-        outerShellControls.set({ "--nav-outer-pad": "var(--nav-inset)" } as unknown as TargetAndTransition);
+        outerShellControls.set({
+          "--nav-outer-pad": "var(--nav-inset)",
+        } as unknown as TargetAndTransition);
         if (!cancelled) {
           onShellClosed();
         }
@@ -314,13 +389,19 @@ function NavbarMobile({
         className={cn(
           NAV_OUTER_CLASS,
           "w-full",
-          navOuterSurfaceClass(isScrolled)
+          navOuterSurfaceClass(isScrolled),
         )}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div data-navbar-row className="flex items-center justify-between gap-[11px] px-[14px] py-[6px] md:gap-3 md:px-5 md:py-2.5">
+        <div
+          data-navbar-row
+          className="flex items-center justify-between gap-[11px] px-[14px] py-[6px] md:gap-3 md:px-5 md:py-2.5"
+        >
           <div data-navbar-brand className="flex shrink-0 items-center">
-            <Link href="/" className="focus-ring inline-flex shrink-0 items-center gap-[11px] rounded-lg py-[3px] group md:gap-3 md:py-1">
+            <Link
+              href="/"
+              className="focus-ring inline-flex shrink-0 items-center gap-[11px] rounded-lg py-[3px] group md:gap-3 md:py-1"
+            >
               <div className="relative">
                 <div className="absolute inset-0 bg-white/20 blur opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
                 <Image
@@ -343,24 +424,42 @@ function NavbarMobile({
             onClick={onToggle}
             aria-controls="mobile-nav-dropdown"
             aria-expanded={isOpen}
-            aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-label={
+              isOpen ? "Close navigation menu" : "Open navigation menu"
+            }
             disabled={interactionLocked}
             className={cn(
               "focus-ring inline-flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition-colors duration-200 hover:text-white",
-              NAV_INNER_GLASS_CLASS
+              NAV_INNER_GLASS_CLASS,
             )}
             whileTap={prefersReducedMotion ? undefined : { scale: 0.96 }}
           >
             <AnimatePresence initial={false} mode="wait">
               <motion.span
                 key={isOpen ? "close" : "open"}
-                initial={prefersReducedMotion ? false : { opacity: 0, rotate: -60, scale: 0.92 }}
+                initial={
+                  prefersReducedMotion
+                    ? false
+                    : { opacity: 0, rotate: -60, scale: 0.92 }
+                }
                 animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, rotate: 60, scale: 0.92 }}
-                transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.18, ease: easeOutExpo }}
+                exit={
+                  prefersReducedMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, rotate: 60, scale: 0.92 }
+                }
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { duration: 0.18, ease: easeOutExpo }
+                }
                 className="inline-flex"
               >
-                {isOpen ? <X className="h-[13px] w-[13px] md:h-[18px] md:w-[18px]" /> : <Menu className="h-[13px] w-[13px] md:h-[18px] md:w-[18px]" />}
+                {isOpen ? (
+                  <X className="h-[13px] w-[13px] md:h-[18px] md:w-[18px]" />
+                ) : (
+                  <Menu className="h-[13px] w-[13px] md:h-[18px] md:w-[18px]" />
+                )}
               </motion.span>
             </AnimatePresence>
           </motion.button>
@@ -370,7 +469,9 @@ function NavbarMobile({
       <div
         id="mobile-nav-dropdown"
         className="absolute left-0 right-0 top-full z-[55] mt-3"
-        style={{ pointerEvents: isOpen && !interactionLocked ? "auto" : "none" }}
+        style={{
+          pointerEvents: isOpen && !interactionLocked ? "auto" : "none",
+        }}
       >
         <div className="mx-auto w-full max-w-[760px]">
           <motion.div
@@ -381,7 +482,7 @@ function NavbarMobile({
               "overflow-hidden",
               NAV_MOBILE_DROPDOWN_INSET_CLASS,
               NAV_MOBILE_OUTER_RADIUS_CLASS,
-              navOuterSurfaceClass(isScrolled)
+              navOuterSurfaceClass(isScrolled),
             )}
             style={{
               opacity: 0,
@@ -391,14 +492,19 @@ function NavbarMobile({
               backfaceVisibility: "hidden",
             }}
           >
-            <div className={cn("flex flex-col", NAV_MOBILE_DROPDOWN_STACK_GAP_CLASS)}>
+            <div
+              className={cn(
+                "flex flex-col",
+                NAV_MOBILE_DROPDOWN_STACK_GAP_CLASS,
+              )}
+            >
               <motion.div
                 animate={innerShellControls}
                 initial={false}
                 className={cn(
                   NAV_INNER_GLASS_CLASS,
                   NAV_MOBILE_DROPDOWN_INNER_RADIUS_CLASS,
-                  "p-2 sm:p-2.5"
+                  "p-2 sm:p-2.5",
                 )}
                 style={{
                   opacity: 0,
@@ -419,7 +525,10 @@ function NavbarMobile({
                     const isActive = isRouteActive(pathname, item.href);
 
                     return (
-                      <motion.li key={`mobile-menu-${item.href}`} variants={mobileMenuItemVariants}>
+                      <motion.li
+                        key={`mobile-menu-${item.href}`}
+                        variants={mobileMenuItemVariants}
+                      >
                         <Link
                           href={item.href}
                           aria-current={isActive ? "page" : undefined}
@@ -428,18 +537,27 @@ function NavbarMobile({
                             onNavigateRequest(item.href);
                           }}
                           className={cn(
-                            navItemClasses({ variant: "desktop", active: isActive }),
-                            "relative flex w-full items-center rounded-full !px-4 !py-3 text-left"
+                            navItemClasses({
+                              variant: "desktop",
+                              active: isActive,
+                            }),
+                            "relative flex w-full items-center rounded-full !px-4 !py-3 text-left",
                           )}
                         >
                           {isActive ? (
                             <motion.span
                               layoutId="nav-active-pill-mobile-dropdown"
                               className="absolute inset-0 rounded-full bg-white/10 border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                              transition={prefersReducedMotion ? { duration: 0 } : navIndicatorTransition}
+                              transition={
+                                prefersReducedMotion
+                                  ? { duration: 0 }
+                                  : navIndicatorTransition
+                              }
                             />
                           ) : null}
-                          <span className="relative z-10 text-[0.8rem] tracking-widest">{item.label}</span>
+                          <span className="relative z-10 text-[0.8rem] tracking-widest">
+                            {item.label}
+                          </span>
                         </Link>
                       </motion.li>
                     );
@@ -447,7 +565,12 @@ function NavbarMobile({
                 </motion.ul>
               </motion.div>
 
-              <motion.div animate={contactControls} initial="closed" variants={mobileMenuItemVariants} className="w-full">
+              <motion.div
+                animate={contactControls}
+                initial="closed"
+                variants={mobileMenuItemVariants}
+                className="w-full"
+              >
                 <Link
                   href={contactLink.href}
                   onClick={(event) => {
@@ -457,7 +580,7 @@ function NavbarMobile({
                   className={cn(
                     buttonClasses({ variant: "gold", size: "md" }),
                     "w-full justify-center",
-                    NAV_MOBILE_DROPDOWN_CONTACT_RADIUS_CLASS
+                    NAV_MOBILE_DROPDOWN_CONTACT_RADIUS_CLASS,
                   )}
                 >
                   {contactLink.label}
@@ -475,16 +598,21 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const prefersReducedMotion = useReducedMotion();
-  const desktopNavLinks = siteContent.navigation.filter((item) => item.href !== "/contact");
+  const desktopNavLinks = siteContent.navigation.filter(
+    (item) => item.href !== "/contact",
+  );
   const mobileNavLinks = mobilePrimaryRouteOrder
     .map((href) => siteContent.navigation.find((item) => item.href === href))
     .filter((item): item is NavigationItem => Boolean(item));
-  const contactLink = siteContent.navigation.find((item) => item.href === "/contact") ?? {
+  const contactLink = siteContent.navigation.find(
+    (item) => item.href === "/contact",
+  ) ?? {
     label: "Contact",
     href: "/contact",
   };
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuPhase, setMobileMenuPhase] = useState<MobileMenuPhase>("closed");
+  const [mobileMenuPhase, setMobileMenuPhase] =
+    useState<MobileMenuPhase>("closed");
   const [pendingHref, setPendingHref] = useState<string | null>(null);
   const rafRef = useRef<number | null>(null);
   const isScrolledRef = useRef(false);
@@ -493,7 +621,9 @@ export default function Navbar() {
   const closeSequencePromiseRef = useRef<Promise<void> | null>(null);
   const isMobileMenuOpen = mobileMenuPhase !== "closed";
   const isMobileInteractionLocked =
-    pendingHref !== null || mobileMenuPhase === "closingItems" || mobileMenuPhase === "closingShell";
+    pendingHref !== null ||
+    mobileMenuPhase === "closingItems" ||
+    mobileMenuPhase === "closingShell";
   const navbarY = useSpring(isScrolled ? 0 : NAV_SCROLL_DOWNSHIFT_PX, {
     stiffness: 280,
     damping: 34,
@@ -574,13 +704,15 @@ export default function Navbar() {
         router.push(href);
       }
     },
-    [ensureMobileMenuClosed, isMobileInteractionLocked, router]
+    [ensureMobileMenuClosed, isMobileInteractionLocked, router],
   );
 
   const handleMobileOpenComplete = useCallback(() => {}, []);
 
   const handleMobileItemsClosed = useCallback(() => {
-    setMobileMenuPhase((previousPhase) => (previousPhase === "closingItems" ? "closingShell" : previousPhase));
+    setMobileMenuPhase((previousPhase) =>
+      previousPhase === "closingItems" ? "closingShell" : previousPhase,
+    );
   }, []);
 
   const handleMobileShellClosed = useCallback(() => {
@@ -588,6 +720,12 @@ export default function Navbar() {
     resolveCloseSequence();
   }, [resolveCloseSequence]);
 
+  /* 
+   * Scroll Sync Logic
+   * 
+   * Uses `requestAnimationFrame` for performance-friendly scroll detection.
+   * Toggles `isScrolled` state which drives the navbar's appearance (glass effect/opacity).
+   */
   useEffect(() => {
     const threshold = 12;
 
@@ -693,22 +831,30 @@ export default function Navbar() {
             initial={prefersReducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.22, ease: easeOutExpo }}
+            transition={
+              prefersReducedMotion
+                ? { duration: 0 }
+                : { duration: 0.22, ease: easeOutExpo }
+            }
             onClick={requestMobileMenuClose}
           />
         ) : null}
       </AnimatePresence>
 
-        <motion.header
-          className={cn(
-            "fixed left-1/2 z-50 w-[calc(100%-2rem)] max-w-[1200px] -translate-x-1/2 sm:w-[calc(100%-3rem)] lg:w-[calc(100%-5rem)] 2xl:w-[calc(100%-6rem)]",
-            "top-[10px] md:top-[21px]"
-          )}
-          style={{
-            y: prefersReducedMotion ? (isScrolled ? 0 : NAV_SCROLL_DOWNSHIFT_PX) : navbarY,
-            willChange: "transform",
-          }}
-        >
+      <motion.header
+        className={cn(
+          "fixed left-1/2 z-50 w-[calc(100%-2rem)] max-w-[1200px] -translate-x-1/2 sm:w-[calc(100%-3rem)] lg:w-[calc(100%-5rem)] 2xl:w-[calc(100%-6rem)]",
+          "top-[10px] md:top-[21px]",
+        )}
+        style={{
+          y: prefersReducedMotion
+            ? isScrolled
+              ? 0
+              : NAV_SCROLL_DOWNSHIFT_PX
+            : navbarY,
+          willChange: "transform",
+        }}
+      >
         <NavbarDesktop
           isScrolled={isScrolled}
           pathname={pathname}

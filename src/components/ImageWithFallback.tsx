@@ -3,7 +3,10 @@
 import Image, { type ImageProps } from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
-interface ImageWithFallbackProps extends Omit<ImageProps, "src" | "width" | "height" | "alt"> {
+interface ImageWithFallbackProps extends Omit<
+  ImageProps,
+  "src" | "width" | "height" | "alt"
+> {
   src: string;
   alt: string;
   width: number;
@@ -25,14 +28,25 @@ function createFallbackDataUri(width: number, height: number, label: string) {
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
-export default function ImageWithFallback({ src, alt, width, height, onError, unoptimized, ...props }: ImageWithFallbackProps) {
+export default function ImageWithFallback({
+  src,
+  alt,
+  width,
+  height,
+  onError,
+  unoptimized,
+  ...props
+}: ImageWithFallbackProps) {
   const [resolvedSrc, setResolvedSrc] = useState(src);
 
   useEffect(() => {
     setResolvedSrc(src);
   }, [src]);
 
-  const fallbackDataUri = useMemo(() => createFallbackDataUri(width, height, "Media"), [height, width]);
+  const fallbackDataUri = useMemo(
+    () => createFallbackDataUri(width, height, "Media"),
+    [height, width],
+  );
   const isDataUri = resolvedSrc.startsWith("data:");
 
   return (
@@ -44,7 +58,9 @@ export default function ImageWithFallback({ src, alt, width, height, onError, un
       unoptimized={Boolean(unoptimized) || isDataUri}
       onError={(event) => {
         onError?.(event);
-        setResolvedSrc((current) => (current.startsWith("data:") ? current : fallbackDataUri));
+        setResolvedSrc((current) =>
+          current.startsWith("data:") ? current : fallbackDataUri,
+        );
       }}
       {...props}
     />

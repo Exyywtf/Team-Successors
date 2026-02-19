@@ -37,7 +37,7 @@ export default function Card({
         sheen && "sheen",
         hover && !prefersReducedMotion && "card-hover",
         cardTypeClass,
-        className
+        className,
       )}
       {...props}
     >

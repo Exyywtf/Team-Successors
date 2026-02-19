@@ -10,12 +10,12 @@ export const siteConfig = {
   socialLinks: [
     {
       label: "Instagram",
-      href: "https://instagram.com/teamsuccessors"
+      href: "https://instagram.com/teamsuccessors",
     },
     {
       label: "LinkedIn",
-      href: "https://linkedin.com/in/team-successors"
-    }
+      href: "https://linkedin.com/in/team-successors",
+    },
   ] as const,
   defaultNavigation: [
     { label: "Home", href: "/" },
@@ -24,8 +24,8 @@ export const siteConfig = {
     { label: "Enterprise", href: "/enterprise" },
     { label: "Sponsors", href: "/sponsors" },
     { label: "FAQ", href: "/faq" },
-    { label: "Contact", href: "/contact" }
-  ] as NavigationItem[]
+    { label: "Contact", href: "/contact" },
+  ] as NavigationItem[],
 };
 
 export type SiteConfig = typeof siteConfig;

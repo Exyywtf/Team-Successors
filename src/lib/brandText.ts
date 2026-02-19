@@ -3,7 +3,7 @@ const BRAND_DISPLAY_NAME = "Team Successors";
 const BRAND_PATTERNS = [
   /\bteam\s*successors\b/gi,
   /\bteamsuccessors\b/gi,
-  /\bteam[-_]?successors\b/gi
+  /\bteam[-_]?successors\b/gi,
 ];
 
 function looksLikeUrlOrPath(text: string): boolean {
@@ -27,7 +27,7 @@ export function normalizeBrandText(text: string): string {
 
   return BRAND_PATTERNS.reduce(
     (normalized, pattern) => normalized.replace(pattern, BRAND_DISPLAY_NAME),
-    text
+    text,
   );
 }
 
@@ -42,7 +42,7 @@ export function normalizeBrandValue<T>(value: T): T {
 
   if (value && typeof value === "object") {
     const entries = Object.entries(value as Record<string, unknown>).map(
-      ([key, nestedValue]) => [key, normalizeBrandValue(nestedValue)]
+      ([key, nestedValue]) => [key, normalizeBrandValue(nestedValue)],
     );
 
     return Object.fromEntries(entries) as T;

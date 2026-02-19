@@ -11,5 +11,5 @@ export const TEAM_MEDIA_FADE_STYLE: CSSProperties = {
   WebkitMaskImage:
     "linear-gradient(to bottom, rgba(0,0,0,1) 68%, rgba(0,0,0,0.95) 80%, rgba(0,0,0,0.8) 88%, rgba(0,0,0,0.56) 93%, rgba(0,0,0,0.3) 97%, rgba(0,0,0,0.12) 99%, rgba(0,0,0,0) 100%)",
   transform: "translateZ(0)",
-  willChange: "transform, opacity"
+  willChange: "transform, opacity",
 };

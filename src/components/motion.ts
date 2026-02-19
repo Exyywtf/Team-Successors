@@ -26,8 +26,4 @@ export {
   headlineSection,
 } from "@/lib/motion";
 
-export type {
-  RevealVariant,
-  SectionType,
-  CardType,
-} from "@/lib/motion";
+export type { RevealVariant, SectionType, CardType } from "@/lib/motion";

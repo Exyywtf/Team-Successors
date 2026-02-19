@@ -1,8 +1,20 @@
 "use client";
 
 import { motion, type HTMLMotionProps, useReducedMotion } from "framer-motion";
-import { Children, type ReactNode, type Ref, useEffect, useId, useRef } from "react";
-import { getRevealVariants, type RevealVariant, type SectionType, staggerItemVariants } from "@/components/motion";
+import {
+  Children,
+  type ReactNode,
+  type Ref,
+  useEffect,
+  useId,
+  useRef,
+} from "react";
+import {
+  getRevealVariants,
+  type RevealVariant,
+  type SectionType,
+  staggerItemVariants,
+} from "@/components/motion";
 import { useRevealOnce } from "@/components/useRevealOnce";
 import { cn } from "@/lib/utils";
 
@@ -39,14 +51,19 @@ export default function Reveal({
   ...props
 }: RevealProps) {
   const prefersReducedMotion = useReducedMotion();
-  const variants = getRevealVariants({ variant, delay, staggerChildren, sectionType });
+  const variants = getRevealVariants({
+    variant,
+    delay,
+    staggerChildren,
+    sectionType,
+  });
   const generatedId = useId().replace(/[:]/g, "");
   const revealCompleteCalledRef = useRef(false);
   const revealProgressCalledRef = useRef(false);
   const revealProgressTimerRef = useRef<number | null>(null);
   const { ref, isRevealed } = useRevealOnce(revealId ?? generatedId, {
     amount,
-    disabled: prefersReducedMotion || !once
+    disabled: prefersReducedMotion || !once,
   });
   const shouldShow = prefersReducedMotion || !once || isRevealed;
   const visibleTransition = variants.visible;
@@ -80,7 +97,9 @@ export default function Reveal({
     };
   }, []);
 
-  const handleAnimationStart: NonNullable<HTMLMotionProps<"div">["onAnimationStart"]> = (definition) => {
+  const handleAnimationStart: NonNullable<
+    HTMLMotionProps<"div">["onAnimationStart"]
+  > = (definition) => {
     onAnimationStart?.(definition);
 
     if (!onRevealProgress || revealProgressCalledRef.current) {
@@ -104,13 +123,18 @@ export default function Reveal({
       return;
     }
 
-    const progressDelayMs = Math.max(0, revealDurationMs * clampedStartChildrenAt);
+    const progressDelayMs = Math.max(
+      0,
+      revealDurationMs * clampedStartChildrenAt,
+    );
     revealProgressTimerRef.current = window.setTimeout(() => {
       triggerRevealProgress(clampedStartChildrenAt);
     }, progressDelayMs);
   };
 
-  const handleAnimationComplete: NonNullable<HTMLMotionProps<"div">["onAnimationComplete"]> = (definition) => {
+  const handleAnimationComplete: NonNullable<
+    HTMLMotionProps<"div">["onAnimationComplete"]
+  > = (definition) => {
     onAnimationComplete?.(definition);
 
     if (revealCompleteCalledRef.current) {
@@ -146,10 +170,17 @@ export default function Reveal({
       variants={prefersReducedMotion ? undefined : variants}
       initial={prefersReducedMotion ? false : shouldShow ? "visible" : "hidden"}
       animate={
-        animateProp ?? (!prefersReducedMotion ? (shouldShow ? "visible" : "hidden") : undefined)
+        animateProp ??
+        (!prefersReducedMotion
+          ? shouldShow
+            ? "visible"
+            : "hidden"
+          : undefined)
       }
       whileInView={!prefersReducedMotion && !once ? "visible" : undefined}
-      viewport={!prefersReducedMotion && !once ? { once: false, amount } : undefined}
+      viewport={
+        !prefersReducedMotion && !once ? { once: false, amount } : undefined
+      }
       onAnimationStart={handleAnimationStart}
       onAnimationComplete={handleAnimationComplete}
       {...props}

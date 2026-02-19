@@ -1,7 +1,14 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/siteConfig";
 
-const routes = ["", "/team", "/engineering", "/enterprise", "/sponsors", "/contact"];
+const routes = [
+  "",
+  "/team",
+  "/engineering",
+  "/enterprise",
+  "/sponsors",
+  "/contact",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -10,6 +17,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteConfig.siteUrl}${route}`,
     lastModified: now,
     changeFrequency: "weekly",
-    priority: route === "" ? 1 : 0.8
+    priority: route === "" ? 1 : 0.8,
   }));
 }

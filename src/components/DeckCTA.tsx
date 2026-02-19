@@ -9,7 +9,7 @@ async function checkWithGet() {
   try {
     const getResponse = await fetch("/deck.pdf", {
       method: "GET",
-      cache: "no-store"
+      cache: "no-store",
     });
 
     return getResponse.ok;
@@ -34,7 +34,7 @@ export default function DeckCTA() {
       try {
         const headResponse = await fetch("/deck.pdf", {
           method: "HEAD",
-          cache: "no-store"
+          cache: "no-store",
         });
 
         if (headResponse.ok) {
@@ -82,7 +82,14 @@ export default function DeckCTA() {
 
   return (
     <div className="inline-flex items-center gap-3">
-      <span className={buttonClasses({ variant: "gold", size: "lg", className: "cursor-not-allowed opacity-70" })} aria-disabled>
+      <span
+        className={buttonClasses({
+          variant: "gold",
+          size: "lg",
+          className: "cursor-not-allowed opacity-70",
+        })}
+        aria-disabled
+      >
         Deck available soon
       </span>
     </div>

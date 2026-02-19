@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 interface UseRevealOnceOptions {
   amount?: number; // 0 to 1 (0 = immediately when 1px is in view)
-  once?: boolean;  // If true, stays revealed. If false, toggles (not used likely, but good for completeness)
+  once?: boolean; // If true, stays revealed. If false, toggles (not used likely, but good for completeness)
   disabled?: boolean;
   threshold?: number; // Optional override for IntersectionObserver threshold
   rootMargin?: string;
@@ -13,16 +13,16 @@ interface UseRevealOnceOptions {
 
 export function useRevealOnce(
   _id?: string, // Legacy ID argument (unused now as we rely on component lifecycle)
-  { 
-    amount = 0.2, 
+  {
+    amount = 0.2,
     disabled = false,
     priority = false, // Use for Hero elements
-    rootMargin = "0px 0px -10% 0px" // Standard margin: trigger when 10% from bottom
-  }: UseRevealOnceOptions = {}
+    rootMargin = "0px 0px -10% 0px", // Standard margin: trigger when 10% from bottom
+  }: UseRevealOnceOptions = {},
 ) {
   const elementRef = useRef<HTMLElement | null>(null);
   const amountThreshold = Math.min(Math.max(amount, 0), 1);
-  
+
   // If disabled (reduced motion), show immediately
   const [isRevealed, setIsRevealed] = useState(disabled);
 
@@ -37,16 +37,18 @@ export function useRevealOnce(
 
     // 1. Immediate check for Priority elements (Hero)
     const checkImmediate = () => {
-       const rect = node.getBoundingClientRect();
-       const windowHeight = window.innerHeight;
-       
-       // Priority elements: trigger if *any* part is in view or mostly likely in view
-       // Standard elements: use the 'amount' logic
-       const isVisible = rect.top < windowHeight - (windowHeight * (priority ? 0 : amountThreshold));
-       
-       if (isVisible) {
-         setIsRevealed(true);
-       }
+      const rect = node.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Priority elements: trigger if *any* part is in view or mostly likely in view
+      // Standard elements: use the 'amount' logic
+      const isVisible =
+        rect.top <
+        windowHeight - windowHeight * (priority ? 0 : amountThreshold);
+
+      if (isVisible) {
+        setIsRevealed(true);
+      }
     };
 
     if (priority) {
@@ -64,8 +66,8 @@ export function useRevealOnce(
       },
       {
         threshold: amountThreshold > 0.5 ? 0.5 : [0, amountThreshold], // Cap threshold for safety
-        rootMargin: priority ? "0px 0px 0px 0px" : rootMargin // Hero gets zero margin (eager trigger)
-      }
+        rootMargin: priority ? "0px 0px 0px 0px" : rootMargin, // Hero gets zero margin (eager trigger)
+      },
     );
 
     observer.observe(node);
@@ -77,4 +79,3 @@ export function useRevealOnce(
 
   return { ref: elementRef, isRevealed };
 }
-

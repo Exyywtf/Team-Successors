@@ -16,7 +16,8 @@ interface MotionPageProps {
   children: ReactNode;
 }
 
-const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 const EXIT_FALLBACK_RELEASE_MS = 380;
 
 function createSsrInitialStyle(): CSSProperties {
@@ -33,7 +34,8 @@ function createSsrInitialStyle(): CSSProperties {
     filter?: string;
   };
 
-  const opacity = typeof initialState.opacity === "number" ? initialState.opacity : 1;
+  const opacity =
+    typeof initialState.opacity === "number" ? initialState.opacity : 1;
   const x = typeof initialState.x === "number" ? initialState.x : 0;
   const y = typeof initialState.y === "number" ? initialState.y : 0;
   const scale = typeof initialState.scale === "number" ? initialState.scale : 1;
@@ -41,7 +43,9 @@ function createSsrInitialStyle(): CSSProperties {
   return {
     opacity,
     transform: `translate3d(${x}px, ${y}px, 0) scale(${scale})`,
-    ...(typeof initialState.filter === "string" ? { filter: initialState.filter } : {}),
+    ...(typeof initialState.filter === "string"
+      ? { filter: initialState.filter }
+      : {}),
   };
 }
 
@@ -93,7 +97,11 @@ export default function MotionPage({ children }: MotionPageProps) {
 
   return (
     <div className="relative isolate min-h-[100dvh]">
-      <AnimatePresence mode="wait" initial={false} onExitComplete={handleExitComplete}>
+      <AnimatePresence
+        mode="wait"
+        initial={false}
+        onExitComplete={handleExitComplete}
+      >
         <motion.div
           key={pathname}
           variants={pageTransitionVariants}
@@ -104,7 +112,11 @@ export default function MotionPage({ children }: MotionPageProps) {
             !motionReady
               ? SSR_INITIAL_STYLE
               : incomingHidden
-                ? { ...SSR_INITIAL_STYLE, pointerEvents: "none", willChange: "opacity, transform" }
+                ? {
+                    ...SSR_INITIAL_STYLE,
+                    pointerEvents: "none",
+                    willChange: "opacity, transform",
+                  }
                 : { willChange: "opacity, transform" }
           }
         >

@@ -13,7 +13,10 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
 
-function parseAnchorRatio(value: string | undefined, fallbackRatio: number): number {
+function parseAnchorRatio(
+  value: string | undefined,
+  fallbackRatio: number,
+): number {
   const numeric = Number.parseFloat(value ?? "");
   if (!Number.isFinite(numeric)) {
     return fallbackRatio;
@@ -37,7 +40,10 @@ function getScrollRoot(): HTMLElement | Window {
   }
 
   const scrollingElement = document.scrollingElement as HTMLElement | null;
-  if (scrollingElement && scrollingElement.scrollHeight > scrollingElement.clientHeight + 1) {
+  if (
+    scrollingElement &&
+    scrollingElement.scrollHeight > scrollingElement.clientHeight + 1
+  ) {
     return scrollingElement;
   }
 
@@ -58,17 +64,26 @@ function getScrollRoot(): HTMLElement | Window {
 export default function CinematicBackground() {
   const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
-  const [debugAtmo, setDebugAtmo] = useState(false);
+  const [debugAtmo, setDebugAtmo] = useState(false); // Toggle via ?atmoDebug query param
+
+  // Physics state for the "Pulse" orb
   const pulseAnchorRef = useRef<HTMLDivElement | null>(null);
-  const targetSpotRef = useRef({ x: 0, y: 0 });
-  const currentSpotRef = useRef({ x: 0, y: 0 });
+  const targetSpotRef = useRef({ x: 0, y: 0 }); // Where the orb wants to go
+  const currentSpotRef = useRef({ x: 0, y: 0 }); // Where the orb currently is
+  
+  // RAF references for the physics loop and target scanning
   const movementRafRef = useRef<number | null>(null);
   const targetUpdateRafRef = useRef<number | null>(null);
+  
+  // Setup & Cleanup refs
   const setupRafOneRef = useRef<number | null>(null);
   const setupRafTwoRef = useRef<number | null>(null);
   const fallbackTimeoutRef = useRef<number | null>(null);
+  
+  // Throttling for scroll events
   const lastTargetUpdateTsRef = useRef(0);
   const updateTargetNowRef = useRef<((force?: boolean) => void) | null>(null);
+  
   const isDev = process.env.NODE_ENV !== "production";
   const overlayVisible = true;
 
@@ -122,7 +137,7 @@ export default function CinematicBackground() {
 
     const getFocusPoint = () => ({
       x: window.innerWidth * 0.5,
-      y: window.innerHeight * 0.45
+      y: window.innerHeight * 0.45,
     });
 
     const resetSpotToFocus = () => {
@@ -135,6 +150,13 @@ export default function CinematicBackground() {
 
     resetSpotToFocus();
 
+    /*
+     * Target Selection Logic
+     * 
+     * Scans all elements with `data-atmo-section` to find the "best" section currently in view.
+     * "Best" is defined by the largest visible area and proximity to the center of the screen.
+     * Calculates a target coordinates (x, y) based on the section's anchor points.
+     */
     const updateTargetNow = (force = false) => {
       if (!force) {
         const now = performance.now();
@@ -144,7 +166,9 @@ export default function CinematicBackground() {
         lastTargetUpdateTsRef.current = now;
       }
 
-      const sections = Array.from(document.querySelectorAll<HTMLElement>(ATMO_SECTION_SELECTOR));
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>(ATMO_SECTION_SELECTOR),
+      );
       if (sections.length === 0) {
         targetSpotRef.current = getFocusPoint();
         return;
@@ -156,7 +180,14 @@ export default function CinematicBackground() {
       let bestSection: HTMLElement | null = null;
       let bestVisibleArea = 0;
       let bestDistance = Number.POSITIVE_INFINITY;
-      let bestIntersection: { ix0: number; ix1: number; iy0: number; iy1: number; visibleW: number; visibleH: number } | null = null;
+      let bestIntersection: {
+        ix0: number;
+        ix1: number;
+        iy0: number;
+        iy1: number;
+        visibleW: number;
+        visibleH: number;
+      } | null = null;
 
       for (const section of sections) {
         const rect = section.getBoundingClientRect();
@@ -180,7 +211,8 @@ export default function CinematicBackground() {
 
         if (
           visibleArea > bestVisibleArea + 1 ||
-          (Math.abs(visibleArea - bestVisibleArea) <= 1 && distance < bestDistance)
+          (Math.abs(visibleArea - bestVisibleArea) <= 1 &&
+            distance < bestDistance)
         ) {
           bestVisibleArea = visibleArea;
           bestDistance = distance;
@@ -194,17 +226,26 @@ export default function CinematicBackground() {
         return;
       }
 
+      // Calculate final target position based on the section's specific anchor preferences
       const xRatio = parseAnchorRatio(
         bestSection.dataset.atmoAnchorX ?? bestSection.dataset.atmoSpot,
-        0.5
+        0.5,
       );
       const yRatio = parseAnchorRatio(
         bestSection.dataset.atmoAnchorY ?? bestSection.dataset.atmoSpotY,
-        0.42
+        0.42,
       );
       targetSpotRef.current = {
-        x: clamp(bestIntersection.ix0 + bestIntersection.visibleW * xRatio, 0, viewportWidth),
-        y: clamp(bestIntersection.iy0 + bestIntersection.visibleH * yRatio, 0, viewportHeight)
+        x: clamp(
+          bestIntersection.ix0 + bestIntersection.visibleW * xRatio,
+          0,
+          viewportWidth,
+        ),
+        y: clamp(
+          bestIntersection.iy0 + bestIntersection.visibleH * yRatio,
+          0,
+          viewportHeight,
+        ),
       };
     };
     updateTargetNowRef.current = updateTargetNow;
@@ -226,7 +267,9 @@ export default function CinematicBackground() {
     const scrollRoot = getScrollRoot();
     window.addEventListener("scroll", handleViewportChange, { passive: true });
     if (scrollRoot instanceof HTMLElement) {
-      scrollRoot.addEventListener("scroll", handleViewportChange, { passive: true });
+      scrollRoot.addEventListener("scroll", handleViewportChange, {
+        passive: true,
+      });
     }
     window.addEventListener("resize", handleViewportChange, { passive: true });
 
@@ -332,13 +375,15 @@ export default function CinematicBackground() {
     transition: "opacity 300ms ease",
     "--atmo-strength": atmoStrength,
     "--atmo-mobile-multiplier": mobileMultiplier,
-    "--atmo-effective-strength": "calc(var(--atmo-strength) * var(--atmo-mobile-multiplier))",
-    "--atmo-leak-opacity": "clamp(0, calc(0.255 * var(--atmo-effective-strength)), 0.55)"
+    "--atmo-effective-strength":
+      "calc(var(--atmo-strength) * var(--atmo-mobile-multiplier))",
+    "--atmo-leak-opacity":
+      "clamp(0, calc(0.255 * var(--atmo-effective-strength)), 0.55)",
   };
 
   const layerBaseStyle: CSSProperties = {
     position: "absolute",
-    pointerEvents: "none"
+    pointerEvents: "none",
   };
 
   const goldStyle: CSSProperties = {
@@ -351,7 +396,7 @@ export default function CinematicBackground() {
       ? "#ffd602"
       : "radial-gradient(circle at 70% 30%, rgba(255,214,2,0.34) 0%, rgba(255,214,2,0.16) 26%, rgba(255,214,2,0.00) 62%)",
     filter: `blur(${goldBlur})`,
-    opacity: debugAtmo ? 1 : "var(--atmo-leak-opacity)"
+    opacity: debugAtmo ? 1 : "var(--atmo-leak-opacity)",
   };
 
   const purpleStyle: CSSProperties = {
@@ -364,7 +409,7 @@ export default function CinematicBackground() {
       ? "#3a0ca3"
       : `radial-gradient(circle at 30% 70%, rgba(${liftedPurpleRgb},0.4) 0%, rgba(${liftedPurpleRgb},0.22) 22%, rgba(${liftedPurpleRgb},0) 62%)`,
     filter: `blur(${purpleBlur})`,
-    opacity: debugAtmo ? 1 : "var(--atmo-leak-opacity)"
+    opacity: debugAtmo ? 1 : "var(--atmo-leak-opacity)",
   };
 
   const pulseTrackStyle: CSSProperties = {
@@ -378,7 +423,7 @@ export default function CinematicBackground() {
     borderRadius: "9999px",
     pointerEvents: "none",
     zIndex: 0,
-    willChange: "left, top"
+    willChange: "left, top",
   };
 
   const pulseStyle: CSSProperties = {
@@ -394,7 +439,7 @@ export default function CinematicBackground() {
     transform: "translateZ(0)",
     backfaceVisibility: "hidden",
     contain: "paint",
-    pointerEvents: "none"
+    pointerEvents: "none",
   };
 
   const pulseHaloStyle: CSSProperties = {
@@ -412,7 +457,9 @@ export default function CinematicBackground() {
     contain: "paint",
     transformOrigin: "center center",
     pointerEvents: "none",
-    animation: debugAtmo ? "none" : `atmoPulseHalo ${pulseDuration} ease-in-out infinite`
+    animation: debugAtmo
+      ? "none"
+      : `atmoPulseHalo ${pulseDuration} ease-in-out infinite`,
   };
 
   const debugBadgeStyle: CSSProperties = {
@@ -426,15 +473,21 @@ export default function CinematicBackground() {
     border: "1px solid #7dff2f",
     background: "rgba(0, 0, 0, 0.85)",
     color: "#7dff2f",
-    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+    fontFamily:
+      'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
     fontSize: "0.75rem",
     letterSpacing: "0.06em",
-    fontWeight: 700
+    fontWeight: 700,
   };
 
   return (
     <>
-      <div id="atmo-overlay" aria-hidden="true" data-hide={overlayVisible ? "0" : "1"} style={overlayStyle}>
+      <div
+        id="atmo-overlay"
+        aria-hidden="true"
+        data-hide={overlayVisible ? "0" : "1"}
+        style={overlayStyle}
+      >
         <div id="atmo-gold" style={goldStyle} />
         <div id="atmo-purple" style={purpleStyle} />
         <div id="atmo-pulse-anchor" style={pulseTrackStyle}>
@@ -442,9 +495,7 @@ export default function CinematicBackground() {
           <div id="atmo-pulse-halo" style={pulseHaloStyle} />
         </div>
       </div>
-      {debugAtmo ? (
-        <div style={debugBadgeStyle}>ATMO ON</div>
-      ) : null}
+      {debugAtmo ? <div style={debugBadgeStyle}>ATMO ON</div> : null}
       <style jsx global>{`
         @keyframes atmoPulseHalo {
           0%,

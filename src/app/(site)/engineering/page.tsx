@@ -9,7 +9,11 @@ export default function EngineeringPage() {
 
   return (
     <>
-      <Section atmoId="engineering-timeline" title={engineeringPage.title} subtitle={engineeringPage.subtitle}>
+      <Section
+        atmoId="engineering-timeline"
+        title={engineeringPage.title}
+        subtitle={engineeringPage.subtitle}
+      >
         <Container>
           <Timeline steps={engineeringPage.timeline} />
         </Container>

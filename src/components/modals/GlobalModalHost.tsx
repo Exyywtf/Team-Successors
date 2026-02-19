@@ -8,7 +8,7 @@ import {
   globalModalBackdropVariants,
   globalModalPanelVariants,
   globalModalTransition,
-  reducedGlobalModalTransition
+  reducedGlobalModalTransition,
 } from "@/components/motion/globalModalVariants";
 import ToastCheckmarkLottie from "@/components/toast/ToastCheckmarkLottie";
 import EnterpriseBulletList from "@/components/ui/EnterpriseBulletList";
@@ -101,17 +101,22 @@ async function copyTextToClipboard(text: string) {
   }
 }
 
-export async function openModal<T extends ModalType>(type: T, payload: ModalPayloadMap[T]) {
+export async function openModal<T extends ModalType>(
+  type: T,
+  payload: ModalPayloadMap[T],
+) {
   if (type === "copyToast") {
-    await copyTextToClipboard((payload as ModalPayloadMap["copyToast"]).copyText);
+    await copyTextToClipboard(
+      (payload as ModalPayloadMap["copyToast"]).copyText,
+    );
   }
 
   emit({
     kind: "open",
     modal: {
       type,
-      payload
-    } as ActiveModal
+      payload,
+    } as ActiveModal,
   });
 }
 
@@ -127,7 +132,9 @@ export default function GlobalModalHost() {
   const openAfterCloseTimerRef = useRef<number | null>(null);
   const pendingCopyActionRef = useRef<PendingCopyAction | null>(null);
   const prefersReducedMotion = useReducedMotion();
-  const activeTransition = prefersReducedMotion ? reducedGlobalModalTransition : globalModalTransition;
+  const activeTransition = prefersReducedMotion
+    ? reducedGlobalModalTransition
+    : globalModalTransition;
   const backdropVariants = globalModalBackdropVariants;
   const panelVariants = globalModalPanelVariants;
 
@@ -169,10 +176,12 @@ export default function GlobalModalHost() {
         pendingCopyActionRef.current = {
           url: modal.payload.pendingUrl,
           onBeforeOpen: modal.payload.onBeforeOpen,
-          onCloseComplete: modal.payload.onCloseComplete
+          onCloseComplete: modal.payload.onCloseComplete,
         };
         autoCloseTimerRef.current = window.setTimeout(() => {
-          setActiveModal((current) => (current?.type === "copyToast" ? null : current));
+          setActiveModal((current) =>
+            current?.type === "copyToast" ? null : current,
+          );
           autoCloseTimerRef.current = null;
         }, COPY_MODAL_VISIBLE_MS);
       } else {
@@ -246,10 +255,7 @@ export default function GlobalModalHost() {
   return createPortal(
     <AnimatePresence mode="wait" onExitComplete={handleExitComplete}>
       {activeModal ? (
-        <div
-          key={activeModal.type}
-          className="modal-overlay-root"
-        >
+        <div key={activeModal.type} className="modal-overlay-root">
           <motion.div
             className="modal-backdrop"
             variants={backdropVariants}
@@ -257,7 +263,9 @@ export default function GlobalModalHost() {
             animate="animate"
             exit="exit"
             transition={activeTransition}
-            onClick={activeModal.type === "copyToast" ? undefined : handleCloseRequest}
+            onClick={
+              activeModal.type === "copyToast" ? undefined : handleCloseRequest
+            }
           />
           <div className="modal-center-wrap">
             {activeModal.type === "copyToast" ? (
@@ -283,8 +291,12 @@ export default function GlobalModalHost() {
                     <ToastCheckmarkLottie playKey={toastOpenCount} />
                   </motion.div>
                   <div className="mt-0">
-                    <div className="toast-line1 type-subtitle">{activeModal.payload.message}</div>
-                    <div className="toast-line2 type-subtitle">Looking forward to hearing from you.</div>
+                    <div className="toast-line1 type-subtitle">
+                      {activeModal.payload.message}
+                    </div>
+                    <div className="toast-line2 type-subtitle">
+                      Looking forward to hearing from you.
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -308,14 +320,20 @@ export default function GlobalModalHost() {
                 >
                   <X size={18} />
                 </button>
-                <p className="tier-chip mb-4 w-fit">{activeModal.payload.badgeText}</p>
-                <h3 className="font-heading text-2xl">{activeModal.payload.title}</h3>
+                <p className="tier-chip mb-4 w-fit">
+                  {activeModal.payload.badgeText}
+                </p>
+                <h3 className="font-heading text-2xl">
+                  {activeModal.payload.title}
+                </h3>
                 <p className="copy-sm mt-4">{activeModal.payload.body}</p>
                 {activeModal.payload.listItems?.length ? (
                   <EnterpriseBulletList
                     items={activeModal.payload.listItems}
                     className="mt-5"
-                    itemKeyPrefix={activeModal.payload.listItemKeyPrefix ?? "detail-item"}
+                    itemKeyPrefix={
+                      activeModal.payload.listItemKeyPrefix ?? "detail-item"
+                    }
                   />
                 ) : null}
               </motion.div>
@@ -324,6 +342,6 @@ export default function GlobalModalHost() {
         </div>
       ) : null}
     </AnimatePresence>,
-    document.body
+    document.body,
   );
 }

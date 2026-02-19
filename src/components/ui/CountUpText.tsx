@@ -23,10 +23,19 @@ const COUNT_UP_PRESETS: Record<string, Omit<CountUpPreset, "ariaLabel">> = {
   "6,000+": { to: 6000, durationMs: 900, suffix: "+" },
   "100k+": { to: 100, durationMs: 800, suffix: "k+" },
   "100%": { to: 100, durationMs: 800, suffix: "%" },
-  "0.1mm": { from: 10, to: 0.1, durationMs: 1100, decimals: 1, direction: "down", suffix: "mm" },
+  "0.1mm": {
+    from: 10,
+    to: 0.1,
+    durationMs: 1100,
+    decimals: 1,
+    direction: "down",
+    suffix: "mm",
+  },
 };
 
-const COUNT_UP_TOKENS = Object.keys(COUNT_UP_PRESETS).sort((a, b) => b.length - a.length);
+const COUNT_UP_TOKENS = Object.keys(COUNT_UP_PRESETS).sort(
+  (a, b) => b.length - a.length,
+);
 const defaultNumberFormatter = new Intl.NumberFormat("en-US");
 
 export function getCountUpPreset(value: string): CountUpPreset | null {
@@ -43,7 +52,9 @@ export function getCountUpPreset(value: string): CountUpPreset | null {
   };
 }
 
-export function splitLeadingCountUpMetric(metric: string): { preset: CountUpPreset; trailingText: string } | null {
+export function splitLeadingCountUpMetric(
+  metric: string,
+): { preset: CountUpPreset; trailingText: string } | null {
   const normalizedMetric = metric.trim();
 
   for (const token of COUNT_UP_TOKENS) {
@@ -132,17 +143,26 @@ export default function CountUpText({
 
     return (nextValue: number) => decimalFormatter.format(nextValue);
   }, [formatter, fractionDigits]);
-  const roundedFrom = useMemo(() => Number(parsedFrom.toFixed(fractionDigits)), [fractionDigits, parsedFrom]);
-  const roundedTo = useMemo(() => Number(parsedTo.toFixed(fractionDigits)), [fractionDigits, parsedTo]);
+  const roundedFrom = useMemo(
+    () => Number(parsedFrom.toFixed(fractionDigits)),
+    [fractionDigits, parsedFrom],
+  );
+  const roundedTo = useMemo(
+    () => Number(parsedTo.toFixed(fractionDigits)),
+    [fractionDigits, parsedTo],
+  );
   const formattedFromValue = useMemo(
     () => `${prefix}${formatNumber(roundedFrom)}${suffix}`,
-    [formatNumber, prefix, roundedFrom, suffix]
+    [formatNumber, prefix, roundedFrom, suffix],
   );
   const formattedToValue = useMemo(
     () => `${prefix}${formatNumber(roundedTo)}${suffix}`,
-    [formatNumber, prefix, roundedTo, suffix]
+    [formatNumber, prefix, roundedTo, suffix],
   );
-  const reserveValue = formattedFromValue.length >= formattedToValue.length ? formattedFromValue : formattedToValue;
+  const reserveValue =
+    formattedFromValue.length >= formattedToValue.length
+      ? formattedFromValue
+      : formattedToValue;
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -175,14 +195,18 @@ export default function CountUpText({
       const animationStart = performance.now();
 
       const animate = (timestamp: number) => {
-        const progress = Math.min(1, (timestamp - animationStart) / safeDurationMs);
+        const progress = Math.min(
+          1,
+          (timestamp - animationStart) / safeDurationMs,
+        );
         if (progress >= 1) {
           setDisplayValue(roundedTo);
           return;
         }
 
         const easedProgress = easeOutSuper(progress);
-        const interpolatedValue = parsedFrom + (parsedTo - parsedFrom) * easedProgress;
+        const interpolatedValue =
+          parsedFrom + (parsedTo - parsedFrom) * easedProgress;
         setDisplayValue(Number(interpolatedValue.toFixed(fractionDigits)));
 
         frameId = window.requestAnimationFrame(animate);
@@ -195,7 +219,17 @@ export default function CountUpText({
       window.clearTimeout(timeoutId);
       window.cancelAnimationFrame(frameId);
     };
-  }, [durationMs, fractionDigits, parsedFrom, parsedTo, prefersReducedMotion, roundedTo, start, startDelayMs, startOffsetMs]);
+  }, [
+    durationMs,
+    fractionDigits,
+    parsedFrom,
+    parsedTo,
+    prefersReducedMotion,
+    roundedTo,
+    start,
+    startDelayMs,
+    startOffsetMs,
+  ]);
 
   const activeValue = prefersReducedMotion ? roundedTo : displayValue;
   const formattedActiveValue = `${prefix}${formatNumber(activeValue)}${suffix}`;
@@ -203,7 +237,11 @@ export default function CountUpText({
 
   if (!reserveWidth) {
     return (
-      <span role="text" aria-label={motionAriaLabel} className={cn("tabular-nums font-extrabold", className)}>
+      <span
+        role="text"
+        aria-label={motionAriaLabel}
+        className={cn("tabular-nums font-extrabold", className)}
+      >
         {formattedActiveValue}
       </span>
     );
@@ -213,7 +251,10 @@ export default function CountUpText({
     <span
       role="text"
       aria-label={motionAriaLabel}
-      className={cn("relative inline-grid tabular-nums font-extrabold", className)}
+      className={cn(
+        "relative inline-grid tabular-nums font-extrabold",
+        className,
+      )}
       style={{ minWidth: `${Math.max(1, reserveValue.length)}ch` }}
     >
       <span aria-hidden className="invisible">

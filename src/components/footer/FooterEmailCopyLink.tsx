@@ -10,7 +10,7 @@ function buildGmailToOnlyUrl() {
   const params = new URLSearchParams({
     view: "cm",
     fs: "1",
-    to: CONTACT_EMAIL_ADDRESS
+    to: CONTACT_EMAIL_ADDRESS,
   });
 
   return `https://mail.google.com/mail/?${params.toString()}`;
@@ -25,14 +25,14 @@ export default function FooterEmailCopyLink() {
     void openModal("copyToast", {
       message: "The email has been copied to your clipboard!",
       copyText: CONTACT_EMAIL_ADDRESS,
-      pendingUrl: composeUrl
+      pendingUrl: composeUrl,
     });
   };
 
   return (
     <a
       className={linkClasses({
-        variant: "inline"
+        variant: "inline",
       })}
       href={composeUrl}
       onClick={handleEmailClick}

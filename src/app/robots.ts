@@ -11,8 +11,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: disallowDeckPaths
+      disallow: disallowDeckPaths,
     },
-    sitemap: `${siteConfig.siteUrl}/sitemap.xml`
+    sitemap: `${siteConfig.siteUrl}/sitemap.xml`,
   };
 }

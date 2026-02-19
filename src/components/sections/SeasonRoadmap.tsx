@@ -8,12 +8,23 @@ import Reveal from "@/components/Reveal";
 import Section from "@/components/layout/Section";
 
 const ROADMAP_TITLE = "Season Roadmap";
-const ROADMAP_SUBTITLE = "Our strategic project phases from team orientation to the starting grid.";
+const ROADMAP_SUBTITLE =
+  "Our strategic project phases from team orientation to the starting grid.";
+
 const ROW_1_WITH_CAR_IMAGE_SRC = "/brand/roadmap/timeline-row1-with-car.png";
 const ROW_2_IMAGE_SRC = "/brand/roadmap/timeline-row2.png";
 const TIMELINE_IMAGE_SIZES = "(max-width: 768px) 100vw, 900px";
+
+// Pre-computed aspect ratios to prevent layout shift during loading
 const ROW_1_ASPECT_RATIO = "30 / 6";
 const ROW_2_ASPECT_RATIO = "30 / 6";
+
+/**
+ * SeasonRoadmap Component
+ * 
+ * visualization of the team's journey.
+ * Uses optimized Next.js images with intrinsic aspect ratios to maintain layout stability.
+ */
 
 export default function SeasonRoadmap() {
   return (
@@ -25,7 +36,11 @@ export default function SeasonRoadmap() {
     >
       <Container>
         <div className="mx-auto max-w-[1200px]">
-          <Reveal variant="fadeUp" delay={CARD_DELAY_AFTER_HEADER} startChildrenAt={0.7}>
+          <Reveal
+            variant="fadeUp"
+            delay={CARD_DELAY_AFTER_HEADER}
+            startChildrenAt={0.7}
+          >
             <div className="grid gap-6">
               <Card className="card-pad-dense hover-info-v1" cardType="info">
                 <div

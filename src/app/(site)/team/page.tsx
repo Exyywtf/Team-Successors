@@ -5,7 +5,11 @@ import { siteContent } from "@/lib/content";
 
 export default function TeamPage() {
   return (
-    <Section atmoId="team-overview" title={siteContent.teamPage.title} subtitle={siteContent.teamPage.subtitle}>
+    <Section
+      atmoId="team-overview"
+      title={siteContent.teamPage.title}
+      subtitle={siteContent.teamPage.subtitle}
+    >
       <Container>
         <TeamGrid members={siteContent.teamMembers} />
       </Container>

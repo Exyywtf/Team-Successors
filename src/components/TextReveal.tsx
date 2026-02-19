@@ -33,14 +33,15 @@ export default function TextReveal({
 
   const items = useMemo(() => {
     if (type === "lines" && Array.isArray(children)) return children;
-    if (type === "lines" && typeof children === "string") return children.split("\n");
+    if (type === "lines" && typeof children === "string")
+      return children.split("\n");
     if (type === "words") return text.split(" ");
     if (type === "chars") return text.split("");
     return [text];
   }, [children, type, text]);
   const { ref, isRevealed } = useRevealOnce(undefined, {
     amount: 0.2,
-    priority
+    priority,
   });
   const shouldShow = prefersReducedMotion || isRevealed;
 
@@ -50,16 +51,16 @@ export default function TextReveal({
       opacity: 1,
       transition: {
         staggerChildren: stagger,
-        delayChildren: delay
-      }
-    }
+        delayChildren: delay,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: {
       opacity: 0,
       y: 20,
-      filter: "blur(4px)"
+      filter: "blur(4px)",
     },
     visible: {
       opacity: 1,
@@ -67,17 +68,17 @@ export default function TextReveal({
       filter: "blur(0px)",
       transition: {
         duration,
-        ease: easeOutExpo
-      }
-    }
+        ease: easeOutExpo,
+      },
+    },
   };
 
   const reducedVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { duration: 0.2, delay }
-    }
+      transition: { duration: 0.2, delay },
+    },
   };
 
   return (

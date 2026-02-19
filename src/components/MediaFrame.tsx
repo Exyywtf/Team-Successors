@@ -30,11 +30,17 @@ export default function MediaFrame({
   const resolvedPosterSrc = posterSrc ?? resolvedImageSrc;
 
   return (
-    <Card className={cn("group overflow-hidden hover-info-v1", className)} cardType="info">
+    <Card
+      className={cn("group overflow-hidden hover-info-v1", className)}
+      cardType="info"
+    >
       <div className="media-pop-shell relative aspect-[16/10] overflow-hidden">
         {hasVideo ? (
           <video
-            className={cn("media-pop h-full w-full object-cover", mediaClassName)}
+            className={cn(
+              "media-pop h-full w-full object-cover",
+              mediaClassName,
+            )}
             autoPlay
             muted
             loop
@@ -43,7 +49,9 @@ export default function MediaFrame({
             poster={resolvedPosterSrc}
             aria-label={alt}
           >
-            {videoWebmSrc ? <source src={videoWebmSrc} type="video/webm" /> : null}
+            {videoWebmSrc ? (
+              <source src={videoWebmSrc} type="video/webm" />
+            ) : null}
             {videoMp4Src ? <source src={videoMp4Src} type="video/mp4" /> : null}
           </video>
         ) : (
@@ -52,7 +60,10 @@ export default function MediaFrame({
             alt={alt}
             width={1600}
             height={1000}
-            className={cn("media-pop h-full w-full object-cover", mediaClassName)}
+            className={cn(
+              "media-pop h-full w-full object-cover",
+              mediaClassName,
+            )}
             sizes={sizes}
             priority={false}
           />

@@ -50,21 +50,27 @@ const sponsorSpotlightDetails: SponsorSpotlightDetail[] = [
   },
 ];
 
-const sponsorDetailIdByBrandName: Record<string, SponsorSpotlightDetail["id"]> = {
-  VMake: "vmake",
-  "Spicebox.AI": "spicebox-ai",
-  "Indiana Delights": "indiana-delights",
-  YetKey: "yetkey",
-};
+const sponsorDetailIdByBrandName: Record<string, SponsorSpotlightDetail["id"]> =
+  {
+    VMake: "vmake",
+    "Spicebox.AI": "spicebox-ai",
+    "Indiana Delights": "indiana-delights",
+    YetKey: "yetkey",
+  };
 
-export default function SponsorSpotlightCards({ sponsors }: SponsorSpotlightCardsProps) {
+export default function SponsorSpotlightCards({
+  sponsors,
+}: SponsorSpotlightCardsProps) {
   const spotlightDetailsById = useMemo(
     () =>
-      sponsorSpotlightDetails.reduce<Record<string, SponsorSpotlightDetail>>((accumulator, detail) => {
-        accumulator[detail.id] = detail;
-        return accumulator;
-      }, {}),
-    []
+      sponsorSpotlightDetails.reduce<Record<string, SponsorSpotlightDetail>>(
+        (accumulator, detail) => {
+          accumulator[detail.id] = detail;
+          return accumulator;
+        },
+        {},
+      ),
+    [],
   );
 
   return (
@@ -86,14 +92,18 @@ export default function SponsorSpotlightCards({ sponsors }: SponsorSpotlightCard
               {detail ? (
                 <button
                   type="button"
-                  className={buttonClasses({ variant: "gold", size: "md", className: "mt-5" })}
+                  className={buttonClasses({
+                    variant: "gold",
+                    size: "md",
+                    className: "mt-5",
+                  })}
                   onClick={() => {
                     void openModal("sponsorDetail", {
                       badgeText: detail.tier,
                       title: detail.brandName,
                       body: detail.description,
                       ariaLabel: `${detail.brandName} details`,
-                      closeButtonAriaLabel: "Close sponsor details modal"
+                      closeButtonAriaLabel: "Close sponsor details modal",
                     });
                   }}
                 >

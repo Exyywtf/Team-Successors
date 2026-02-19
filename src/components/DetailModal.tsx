@@ -40,9 +40,15 @@ export default function DetailModal({
 }: DetailModalProps) {
   const prefersReducedMotion = useReducedMotion();
   const didCloseCompleteRef = useRef(false);
-  const overlayMotionVariants = prefersReducedMotion ? reducedBackdropVariants : backdropVariants;
-  const panelMotionVariants = prefersReducedMotion ? reducedPanelVariants : panelVariants;
-  const activeTransition = prefersReducedMotion ? reducedModalTransition : modalTransition;
+  const overlayMotionVariants = prefersReducedMotion
+    ? reducedBackdropVariants
+    : backdropVariants;
+  const panelMotionVariants = prefersReducedMotion
+    ? reducedPanelVariants
+    : panelVariants;
+  const activeTransition = prefersReducedMotion
+    ? reducedModalTransition
+    : modalTransition;
 
   useEffect(() => {
     if (isOpen) {
@@ -74,7 +80,8 @@ export default function DetailModal({
     }
 
     const reachedClosed =
-      definition === "closed" || (Array.isArray(definition) && definition.includes("closed"));
+      definition === "closed" ||
+      (Array.isArray(definition) && definition.includes("closed"));
     if (!reachedClosed) {
       return;
     }

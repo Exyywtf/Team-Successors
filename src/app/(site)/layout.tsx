@@ -6,10 +6,14 @@ import SiteLayoutFrame from "@/components/layout/SiteLayoutFrame";
 import PersistentHeroVideo from "@/components/PersistentHeroVideo";
 
 export const metadata: Metadata = {
-  title: "Successors | F1 in Schools"
+  title: "Successors | F1 in Schools",
 };
 
-export default function SiteLayout({ children }: { children: React.ReactNode }) {
+export default function SiteLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div className="relative isolate min-h-[100dvh] bg-transparent text-main">
       <CinematicBackground />

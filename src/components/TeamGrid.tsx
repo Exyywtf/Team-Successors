@@ -5,7 +5,7 @@ import Card from "@/components/ui/Card";
 import {
   TEAM_MEDIA_BACKGROUND_CLASS,
   TEAM_MEDIA_FADE_STYLE,
-  TEAM_MEDIA_OVERLAY_SIZE_CLASS
+  TEAM_MEDIA_OVERLAY_SIZE_CLASS,
 } from "@/components/media/teamMediaStyles";
 import { openModal } from "@/components/modals/GlobalModalHost";
 import ImageWithFallback from "@/components/ImageWithFallback";
@@ -27,7 +27,7 @@ export default function TeamGrid({ members }: TeamGridProps) {
       listItems: member.achievements,
       listItemKeyPrefix: member.id,
       ariaLabel: `${member.name} bio`,
-      closeButtonAriaLabel: "Close bio modal"
+      closeButtonAriaLabel: "Close bio modal",
     });
   };
 
@@ -46,7 +46,11 @@ export default function TeamGrid({ members }: TeamGridProps) {
               data-team-media-wrapper="1"
               style={{ borderColor: "transparent", boxShadow: "none" }}
             >
-              <div aria-hidden="true" className={TEAM_MEDIA_BACKGROUND_CLASS} style={TEAM_MEDIA_FADE_STYLE} />
+              <div
+                aria-hidden="true"
+                className={TEAM_MEDIA_BACKGROUND_CLASS}
+                style={TEAM_MEDIA_FADE_STYLE}
+              />
               <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
                 <ImageWithFallback
                   src={member.imageSrc}
@@ -68,7 +72,11 @@ export default function TeamGrid({ members }: TeamGridProps) {
               />
               <div className="mt-auto">
                 <button
-                  className={buttonClasses({ variant: "gold", size: "md", className: "mt-5" })}
+                  className={buttonClasses({
+                    variant: "gold",
+                    size: "md",
+                    className: "mt-5",
+                  })}
                   onClick={() => openBio(member)}
                 >
                   View Bio
