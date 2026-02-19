@@ -64,7 +64,7 @@ export default function StatPills({
                   ariaLabel={preset.ariaLabel}
                 />
               ) : (
-                stat.value
+                <span className="tabular-nums font-extrabold">{stat.value}</span>
               )}
             </strong>
             <span>{stat.label}</span>
