@@ -27,14 +27,15 @@ const bodyFont = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
-  title: {
-    default: "Successors | F1 in Schools",
-    template: "%s | Successors",
-  },
+  title: "Successors | F1 in Schools",
   icons: {
-    icon: [{ url: "/brand/logo.svg", type: "image/svg+xml" }],
-    shortcut: ["/brand/logo.svg"],
-    apple: [{ url: "/brand/logo.svg" }],
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/brand/logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/favicon-32x32.png"],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   description:
     "Official website of Successors, a premiere F1 in Schools team from Dubai, UAE. We combine advanced engineering, strategic enterprise, and community outreach to compete at the highest level of STEM competition.",

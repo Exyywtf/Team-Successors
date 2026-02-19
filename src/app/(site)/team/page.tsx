@@ -6,7 +6,7 @@ import { siteContent } from "@/lib/content";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Meet the Successors | F1 in Schools - Roles, Bios & Structure",
+  title: "Meet the Successors | Successors",
   description:
     "Get to know the students behind Successors. Organized for efficiency, united by passion.",
   alternates: {

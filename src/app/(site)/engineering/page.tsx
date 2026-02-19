@@ -7,7 +7,7 @@ import { siteContent } from "@/lib/content";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Engineering Process | Successors - Aerodynamics, CAD & Manufacturing",
+  title: "Engineering Process | Successors",
   description:
     "Deep dive into our engineering workflow: from CFD analysis and wind tunnel testing to CNC manufacturing and race-day optimization.",
   alternates: {

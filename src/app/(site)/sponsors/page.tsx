@@ -12,7 +12,7 @@ import { siteContent } from "@/lib/content";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Our Sponsors | Successors - Sponsorship Opportunities & ROI",
+  title: "Our Sponsors | Successors",
   description:
     "We are powered by industry leaders. Explore our current partners and discover how to join our network.",
   alternates: {
