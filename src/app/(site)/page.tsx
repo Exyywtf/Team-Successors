@@ -154,7 +154,7 @@ export default function HomePage() {
                 const countUpMetric = splitLeadingCountUpMetric(item.metric);
                 const metricLabel = countUpMetric?.trailingText.trimStart() ?? "";
                 const isToleranceMetric = item.metric.trim().toLowerCase() === "0.1mm tolerance target";
-                const isStaticQ3Metric = item.metric.trim().toUpperCase() === "Q3 RACE WINDOW";
+                const isStaticQ2Metric = item.metric.trim().toUpperCase() === "Q2 RACE WINDOW";
 
                 return (
                   <Card key={item.title} className="card-pad-default hover-info-v1 md:col-span-3" cardType="feature">
@@ -174,14 +174,14 @@ export default function HomePage() {
                             ariaLabel={countUpMetric.preset.ariaLabel}
                             reserveWidth={!isToleranceMetric}
                           />
-                          {metricLabel ? ` ${metricLabel}` : null}
+                          {metricLabel ? <span className="ml-1">{metricLabel}</span> : null}
                         </>
-                      ) : isStaticQ3Metric ? (
+                      ) : isStaticQ2Metric ? (
                         <>
                           <span role="text" aria-label={item.metric} className="tabular-nums font-extrabold">
-                            Q3
-                          </span>{" "}
-                          Race Window
+                            Q2
+                          </span>
+                          <span className="ml-1">Race Window</span>
                         </>
                       ) : (
                         item.metric
