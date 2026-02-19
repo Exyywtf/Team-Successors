@@ -41,17 +41,17 @@ const engineeringFaqItems: FaqItem[] = [
 
 const enterpriseFaqItems: FaqItem[] = [
   {
+    question: 'What does "Successors" represent?',
+    answer:
+      "We chose the name Successors because we are the second generation of teams originating from GFS, carrying forward the legacy of the founding team and striving to complete their unfinished mission of becoming national champions.",
+  },
+  {
     question: "How can a business sponsor the team?",
     answer:
       'We offer multiple sponsorship tiers-from our "Speed" package to our top-tier "Champion" package. Depending on the tier, sponsors receive logo placement, collaborative social media posts, promotional videos, and dedicated representation at our events.',
   },
   {
-    question: "Where does the team's funding go?",
-    answer:
-      "Our projected budget of 25,230 AED is allocated strategically for maximum performance: 53.5% goes to engineering and manufacturing, 37.7% to enterprise and marketing, and 8.8% to team management and operations.",
-  },
-  {
-    question: "What kind of community outreach do you do?",
+    question: "What kind or community outreach do you do?",
     answer:
       "We actively engage with our community off the track. This includes hosting a charity run alongside our Champion sponsor, organizing educational AI workshops for younger students, and pitching business solutions at the Adam Burfield Enterprise Award.",
   },
