@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Orbitron } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@/app/globals.css";
 import { siteConfig } from "@/lib/siteConfig";
 
@@ -130,6 +132,8 @@ export default function RootLayout({
       </head>
       <body className={`${bodyFont.className} relative isolate text-main`}>
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
