@@ -95,7 +95,7 @@ export default function PersistentHeroVideo() {
       className="pointer-events-none absolute left-0 top-0 w-full overflow-hidden"
       style={{
         zIndex: 0,
-        height: "clamp(850px, 100vh, 1175px)", // Matches hero section height
+        height: "var(--hero-stage-height)", // Matches hero section height
         opacity: isHome && !isModalOpen ? 1 : 0,
         transition: "opacity 600ms ease-out", // Smooth fade in/out on route change
         // We use visibility hidden when not home to avoid potential GPU usage/painting when not needed,

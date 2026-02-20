@@ -117,7 +117,7 @@ function NavbarDesktop({
       data-navbar-outer
       className={cn(
         NAV_OUTER_CLASS,
-        "hidden w-full md:mx-auto md:w-max md:flex-col xl:inline-flex",
+        "hidden w-full md:mx-auto md:w-max md:flex-col xl:flex",
         navOuterSurfaceClass(isScrolled),
       )}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -873,7 +873,7 @@ export default function Navbar() {
 
       <motion.header
         className={cn(
-          "fixed left-1/2 z-50 w-[calc(100%-2rem)] max-w-[1200px] -translate-x-1/2 sm:w-[calc(100%-3rem)] lg:w-[calc(100%-5rem)] 2xl:w-[calc(100%-6rem)]",
+          "fixed inset-x-0 z-50 mx-auto w-[calc(100%-2rem)] max-w-[1200px] sm:w-[calc(100%-3rem)] lg:w-[calc(100%-5rem)] 2xl:w-[calc(100%-6rem)]",
           "top-[10px] md:top-[21px]",
         )}
         style={{

@@ -96,6 +96,14 @@
   --navbar-height-desktop: 5rem;
   --hero-navbar-gap-mobile: 1.875rem;
   --hero-navbar-gap-desktop: 2.375rem;
+  --hero-stage-min: 850px;
+  --hero-stage-mid: 100vh;
+  --hero-stage-max: 1175px;
+  --hero-stage-height: clamp(
+    var(--hero-stage-min),
+    var(--hero-stage-mid),
+    var(--hero-stage-max)
+  );
   --hero-pt-mobile: calc(
     var(--navbar-height-mobile) + var(--navbar-offset-mobile) +
       var(--hero-navbar-gap-mobile)
@@ -129,6 +137,16 @@
   --sponsor-logo-strip-pad: 12px;
   --sponsor-logo-page-pad: 14px;
   --sponsor-logo-page-pad-left: 16px;
+}
+
+@media (max-width: 767.98px) {
+  :root {
+    --hero-stage-height: clamp(
+      calc(var(--hero-stage-min) * 0.9),
+      calc(var(--hero-stage-mid) * 0.9),
+      calc(var(--hero-stage-max) * 0.9)
+    );
+  }
 }
 
 @layer base {
@@ -1296,6 +1314,27 @@
       .section-tight:first-of-type .type-title,
       .section-hero:first-of-type .type-title {
         margin-top: 0 !important;
+      }
+
+      /* Remove atmospheric background layers on small screens for performance. */
+      #atmo-overlay,
+      #atmo-overlay * {
+        display: none !important;
+      }
+
+      .bg-cinematic {
+        background: #050505 !important;
+      }
+
+      .bg-cinematic::before,
+      .bg-cinematic::after,
+      .footer-obsidian-haze::after {
+        content: none !important;
+        opacity: 0 !important;
+      }
+
+      .footer-obsidian-haze {
+        background-image: none !important;
       }
     }
 

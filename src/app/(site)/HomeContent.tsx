@@ -64,7 +64,7 @@ export default function HomeContent() {
       <div data-home-hero-wrap className="relative overflow-hidden">
         <section
           data-atmosphere-hero
-          className="hero-stage relative z-10 isolate flex min-h-[clamp(850px,100vh,1175px)] items-end overflow-hidden bg-transparent pb-16 pt-[var(--hero-pt-mobile)] md:pb-24 md:pt-[var(--hero-pt-desktop)] lg:pb-28"
+          className="hero-stage relative z-10 isolate flex min-h-[var(--hero-stage-height)] items-end overflow-hidden bg-transparent pb-16 pt-[var(--hero-pt-mobile)] md:pb-24 md:pt-[var(--hero-pt-desktop)] lg:pb-28"
         >
           {/* <HeroBackgroundVideo /> - Moved to persistent layout to prevent flickering */}
           <Container className="relative z-20">

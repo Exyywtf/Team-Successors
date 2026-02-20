@@ -10,6 +10,7 @@ import {
 } from "@/lib/modalRuntime";
 
 const ATMO_SECTION_SELECTOR = "[data-atmo-section]";
+const MOBILE_VIEWPORT_QUERY = "(max-width: 767px)";
 const SPOT_LERP_FACTOR = 0.12;
 const TARGET_UPDATE_MIN_MS = 80;
 const SPOT_SNAP_THRESHOLD = 0.35;
@@ -65,6 +66,14 @@ function getScrollRoot(): HTMLElement | Window {
   }
 
   return window;
+}
+
+function isMobileViewport(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return window.matchMedia(MOBILE_VIEWPORT_QUERY).matches;
 }
 
 export default function CinematicBackground() {
@@ -162,7 +171,7 @@ export default function CinematicBackground() {
       return;
     }
 
-    const mobileQuery = window.matchMedia("(max-width: 767px)");
+    const mobileQuery = window.matchMedia(MOBILE_VIEWPORT_QUERY);
     const syncMobile = () => {
       setIsMobile(mobileQuery.matches);
     };
@@ -185,7 +194,7 @@ export default function CinematicBackground() {
       return;
     }
 
-    if (isAtmoWorkPaused) {
+    if (isAtmoWorkPaused || isMobileViewport()) {
       return;
     }
 
@@ -370,10 +379,10 @@ export default function CinematicBackground() {
       setupRafTwoRef.current = null;
       fallbackTimeoutRef.current = null;
     };
-  }, [isAtmoWorkPaused, pathname]);
+  }, [isAtmoWorkPaused, isMobile, pathname]);
 
   useEffect(() => {
-    if (typeof window === "undefined" || isAtmoWorkPaused) {
+    if (typeof window === "undefined" || isAtmoWorkPaused || isMobileViewport()) {
       return;
     }
 
@@ -411,14 +420,18 @@ export default function CinematicBackground() {
       }
       movementRafRef.current = null;
     };
-  }, [isAtmoWorkPaused, pathname]);
+  }, [isAtmoWorkPaused, isMobile, pathname]);
 
   useEffect(() => {
-    if (isAtmoWorkPaused) {
+    if (isAtmoWorkPaused || isMobileViewport()) {
       return;
     }
     updateTargetNowRef.current?.(true);
-  }, [isAtmoWorkPaused, pathname]);
+  }, [isAtmoWorkPaused, isMobile, pathname]);
+
+  if (isMobile) {
+    return null;
+  }
 
   const atmoStrength = 1.35;
   const mobileMultiplier = isMobile ? 0.85 : 1;
