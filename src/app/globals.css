@@ -641,6 +641,15 @@
     font-size: 0.84rem;
   }
 
+  .hero-cta-button {
+    min-height: clamp(2.7rem, 2.45rem + 0.9vw, 3.1rem);
+    padding-inline: clamp(1rem, 0.78rem + 0.72vw, 1.35rem);
+    font-size: clamp(0.76rem, 0.69rem + 0.22vw, 0.84rem);
+    letter-spacing: clamp(0.045em, 0.037em + 0.08vw, 0.06em);
+    gap: clamp(0.38rem, 0.29rem + 0.28vw, 0.5rem);
+    white-space: nowrap;
+  }
+
   .focus-ring {
     outline: none;
   }

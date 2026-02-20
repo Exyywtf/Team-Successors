@@ -119,6 +119,7 @@ export default function HomeContent() {
                       className={buttonClasses({
                         variant: "primary",
                         size: "lg",
+                        className: "hero-cta-button",
                       })}
                     >
                       {hero.ctaPrimary.label}
@@ -131,7 +132,11 @@ export default function HomeContent() {
                   >
                     <Link
                       href={hero.ctaSecondary.href}
-                      className={buttonClasses({ variant: "gold", size: "lg" })}
+                      className={buttonClasses({
+                        variant: "gold",
+                        size: "lg",
+                        className: "hero-cta-button",
+                      })}
                     >
                       {hero.ctaSecondary.label}
                     </Link>
