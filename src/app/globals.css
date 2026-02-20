@@ -997,14 +997,17 @@
     inset: 0;
     display: grid;
     place-items: center;
+    --modal-inline-pad: 24px;
     padding: 24px;
+    padding-inline: var(--modal-inline-pad);
     pointer-events: none;
   }
 
   .modal-toast-card {
-    width: min(92vw, 640px);
-    min-width: 520px;
+    width: min(640px, calc(100vw - (var(--modal-inline-pad, 24px) * 2)));
+    min-width: 0;
     max-width: 640px;
+    margin-inline: auto;
     --border-glow: var(--border-accent);
     --glow-gold-soft: 0 0 60px rgba(131, 56, 236, 0.12);
   }
@@ -1260,7 +1263,20 @@
 
     @media (max-width: 767px) {
       .modal-toast-card {
+        width: min(
+          640px,
+          calc(100vw - (var(--modal-inline-pad, 24px) * 2))
+        );
         min-width: 0;
+      }
+
+      .toast-line1,
+      .toast-line2 {
+        overflow-wrap: anywhere;
+      }
+
+      .toast-line1 {
+        white-space: normal;
       }
     }
 
