@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Container from "@/components/layout/Container";
 import Card from "@/components/ui/Card";
@@ -46,6 +46,7 @@ export default function HomeContent() {
   const { hero, home, sponsors, enterprisePage } = siteContent;
   const [highlightsCountStart, setHighlightsCountStart] = useState(false);
   const [outreachCountStart, setOutreachCountStart] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const heroHeadlinePrimaryDelay = 0.1;
   const heroHeadlineSecondaryDelay = 0.25;
   const heroSubheadlineDelay = 0.5;
@@ -59,6 +60,30 @@ export default function HomeContent() {
     heroSubheadlineDuration;
   const heroPrimaryButtonDelay = heroSubheadlineCompletionDelay;
   const heroSecondaryButtonDelay = heroPrimaryButtonDelay + heroButtonsStagger;
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncViewport = () => {
+      setIsMobileViewport(mediaQuery.matches);
+    };
+    syncViewport();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", syncViewport);
+      return () => {
+        mediaQuery.removeEventListener("change", syncViewport);
+      };
+    }
+
+    return () => {
+      mediaQuery.removeListener(syncViewport);
+    };
+  }, []);
+
   return (
     <>
       <div data-home-hero-wrap className="relative overflow-hidden">
@@ -108,10 +133,11 @@ export default function HomeContent() {
                   </TextReveal>
                 </div>
 
-                <div className="mt-8 flex flex-wrap gap-3">
+                <div className="mt-5 flex flex-wrap gap-3">
                   <Reveal
                     variant="fadeUp"
                     delay={heroPrimaryButtonDelay}
+                    priority={isMobileViewport}
                     revealId="hero-cta-primary"
                   >
                     <Link
@@ -128,6 +154,7 @@ export default function HomeContent() {
                   <Reveal
                     variant="fadeUp"
                     delay={heroSecondaryButtonDelay}
+                    priority={isMobileViewport}
                     revealId="hero-cta-secondary"
                   >
                     <Link

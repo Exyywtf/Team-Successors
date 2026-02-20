@@ -25,6 +25,7 @@ interface RevealProps extends Omit<HTMLMotionProps<"div">, "children"> {
   staggerChildren?: number;
   once?: boolean;
   amount?: number;
+  priority?: boolean;
   revealId?: string;
   sectionType?: SectionType;
   onRevealComplete?: () => void;
@@ -40,6 +41,7 @@ export default function Reveal({
   staggerChildren = 0.08,
   once = true,
   amount = 0.2,
+  priority = false,
   revealId,
   sectionType = "default",
   onRevealComplete,
@@ -64,6 +66,7 @@ export default function Reveal({
   const { ref, isRevealed } = useRevealOnce(revealId ?? generatedId, {
     amount,
     disabled: prefersReducedMotion || !once,
+    priority,
   });
   const shouldShow = prefersReducedMotion || !once || isRevealed;
   const visibleTransition = variants.visible;
